@@ -17,7 +17,7 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
       .filter {
         (it.dataPedido == filtro.data() || filtro.data() == null)
         && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
-        && (it.vendedor?.startsWith(filtro.vendedor()) == true
+        && (it.vendedor?.contains(filtro.vendedor()) == true
             || it.empno?.toString() == filtro.vendedor()
             || filtro.vendedor() == "")
       }
@@ -33,7 +33,7 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
       .filter {
         (it.dataPedido == filtro.data() || filtro.data() == null)
         && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
-        && (it.vendedor?.startsWith(filtro.vendedor()) == true
+        && (it.vendedor?.contains(filtro.vendedor()) == true
             || it.empno?.toString() == filtro.vendedor()
             || filtro.vendedor() == "")
       }
