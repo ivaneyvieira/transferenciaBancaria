@@ -15,6 +15,7 @@ class PainelGridDivergencia(view : ITransferenciaBancariaView, blockUpdate: () -
     colLoja()
     colnumPedido()
     colDataPedido()
+    colVendedor()
     colMetodo()
     colBanco()
     colValorNota()

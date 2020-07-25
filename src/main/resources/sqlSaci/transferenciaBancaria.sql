@@ -85,30 +85,30 @@ FROM sqldados.TCARDBANCO01
 GROUP BY storeno, ordno;
 
 
-SELECT P.storeno                                          AS loja,
-       P.ordno                                            AS numPedido,
-       IF(P.date = 0, NULL, cast(P.date AS DATE))         AS dataPedido,
-       TPED.empno                                         AS empno,
-       TPED.VENDEDOR                                      AS vendedor,
-       IFNULL(senha, '')                                  AS senhaVendedor,
-       P.paymno                                           AS metodo,
-       frete                                              AS valorFrete,
-       IF(frete IS NULL, TPED.amount, total)              AS valorPedido,
-       DEPOSITANTE                                        AS depositante,
-       CLIENTE                                            AS cliente,
-       ifnull(cast(IFNULL(N.nfno, F.nfno) AS CHAR), '')   AS nfnoNota,
-       IFNULL(IFNULL(N.nfse, F.nfse), '')                 AS nfseNota,
+SELECT P.storeno                                           AS loja,
+       P.ordno                                             AS numPedido,
+       IF(P.date = 0, NULL, cast(P.date AS DATE))          AS dataPedido,
+       TPED.empno                                          AS empno,
+       CAST(CONCAT(TPED.empno, ' ' TPED.VENDEDOR) AS CHAR) AS vendedor,
+       IFNULL(senha, '')                                   AS senhaVendedor,
+       P.paymno                                            AS metodo,
+       frete                                               AS valorFrete,
+       IF(frete IS NULL, TPED.amount, total)               AS valorPedido,
+       DEPOSITANTE                                         AS depositante,
+       CLIENTE                                             AS cliente,
+       ifnull(cast(IFNULL(N.nfno, F.nfno) AS CHAR), '')    AS nfnoNota,
+       IFNULL(IFNULL(N.nfse, F.nfse), '')                  AS nfseNota,
        if(IFNULL(N.issuedate, F.issuedate) = 0, NULL,
-	  cast(IFNULL(N.issuedate, F.issuedate) AS DATE)) AS dataNota,
-       IFNULL(N.grossamt, F.grossamt) / 100               AS valorNota,
-       B.valor                                            AS valorTransf,
-       B.banco                                            AS banco,
-       B.autorizacao                                      AS autorizacao,
-       P.status                                           AS status,
-       P.c1                                               AS marca,
-       P.s16                                              AS userTransf,
-       P.m16 / 100                                        AS valorTransfEdt,
-       P.c6                                               AS autorizacaoEdt
+	  cast(IFNULL(N.issuedate, F.issuedate) AS DATE))  AS dataNota,
+       IFNULL(N.grossamt, F.grossamt) / 100                AS valorNota,
+       B.valor                                             AS valorTransf,
+       B.banco                                             AS banco,
+       B.autorizacao                                       AS autorizacao,
+       P.status                                            AS status,
+       P.c1                                                AS marca,
+       P.s16                                               AS userTransf,
+       P.m16 / 100                                         AS valorTransfEdt,
+       P.c6                                                AS autorizacaoEdt
 FROM sqldados.eord               AS P
   INNER JOIN sqldados.custp      AS C
 	       ON C.no = P.custno
@@ -124,7 +124,7 @@ FROM sqldados.eord               AS P
 	       ON U.no = P.userno
   INNER JOIN sqldados.TPED
 	       ON TPED.storeno = P.storeno AND TPED.ordno = P.ordno
-  LEFT JOIN sqldados.TCARDBANCO AS B
+  LEFT JOIN  sqldados.TCARDBANCO AS B
 	       ON B.storeno = P.storeno AND B.ordno = P.ordno
 WHERE P.paymno IN (311, 312)
   AND P.date >= :data
