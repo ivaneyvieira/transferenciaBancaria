@@ -24,7 +24,7 @@ data class TransferenciaBancaria(val loja: Int,
                                  val autorizacao: String?,
                                  val status: Int,
                                  val marca: String,
-                                 val userTransf: Int?,
+                                 val userTransf: Int,
                                  val banco: Int?,
                                  val valorTransfEdt: Double,
                                  val autorizacaoEdt: String
@@ -70,7 +70,7 @@ data class TransferenciaBancaria(val loja: Int,
     fun listaPedido(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
         it.notaFiscal == ""
-        && it.userTransf == null
+        && it.userTransf == 0
         && statusValidosPedido.contains(it.status)
         && it.marca == ""
       }
@@ -79,7 +79,7 @@ data class TransferenciaBancaria(val loja: Int,
     fun listaPendente(): List<TransferenciaBancaria> {
       return updateList(0).filter {
         it.notaFiscal == ""
-        && it.userTransf == null
+        && it.userTransf == 0
         && it.marca == "S"
       }
     }
@@ -87,7 +87,7 @@ data class TransferenciaBancaria(val loja: Int,
     fun listaFinalizar(): List<TransferenciaBancaria> {
       return updateList(0).filter {
         it.notaFiscal == ""
-        && it.userTransf != null
+        && it.userTransf != 0
         && it.marca == "S"
       }
     }
@@ -95,7 +95,7 @@ data class TransferenciaBancaria(val loja: Int,
     fun listaDivergencia(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
         it.notaFiscal != ""
-        && it.userTransf != null
+        && it.userTransf != 0
         && it.marca == "S"
         && it.divergente()
       }
@@ -104,7 +104,7 @@ data class TransferenciaBancaria(val loja: Int,
     fun listaEditor(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
         it.notaFiscal != ""
-        && it.userTransf != null
+        && it.userTransf != 0
         && it.marca == "S"
       }
     }
