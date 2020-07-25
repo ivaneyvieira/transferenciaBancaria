@@ -45,7 +45,7 @@ data class TransferenciaBancaria(val loja: Int,
   }
   
   fun marcaVendedor(marca: Boolean) {
-    saci.marcaVendedor(loja, numPedido, if(marca) "S" else "N")
+    saci.marcaVendedor(loja, numPedido, if(marca) "S" else "")
   }
   
   fun marcaUserTransf(marca: Boolean) {

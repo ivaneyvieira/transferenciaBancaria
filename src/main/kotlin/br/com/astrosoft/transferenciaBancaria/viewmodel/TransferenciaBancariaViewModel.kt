@@ -15,12 +15,17 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     val filtro = view.filtroPedido
     return TransferenciaBancaria.listaPedido()
       .filter {
-        (it.dataPedido == filtro.data() || filtro.data() == null)
-        && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
-        && (it.vendedor?.contains(filtro.vendedor()) == true
-            || it.empno?.toString() == filtro.vendedor()
-            || filtro.vendedor() == "")
+        filtroPedito(it, filtro)
       }
+  }
+  
+  private fun filtroPedito(it: TransferenciaBancaria,
+                           filtro: IFiltroPedido): Boolean {
+    return ((it.dataPedido == filtro.data() || filtro.data() == null)
+            && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
+            && (it.vendedor?.contains(filtro.vendedor()) == true
+                || it.empno?.toString() == filtro.vendedor()
+                || filtro.vendedor() == ""))
   }
   
   fun updateGridPendente() {
@@ -91,7 +96,7 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     val itens = transferencia
       .ifEmpty {fail("Nenhum item selecionado")}
     itens.forEach {transferenciaBancaria: TransferenciaBancaria ->
-      transferenciaBancaria.marcaUserTransf(marca)
+      transferenciaBancaria.marcaVendedor(marca)
     }
     view.updateGrid()
   }
