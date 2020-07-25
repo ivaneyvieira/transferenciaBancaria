@@ -64,7 +64,7 @@ class UserSaci: IUser {
     }
   
   companion object {
-    private val BIT_ATIVO = 2.pow(12)
+    private val BIT_ATIVO = 2.pow(13)
     private val BIT_PEDIDO = 2.pow(0)
     private val BIT_PENDENTE = 2.pow(1)
     private val BIT_FINALIZAR = 2.pow(2)
