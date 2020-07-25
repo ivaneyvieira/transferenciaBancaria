@@ -2,7 +2,7 @@ version: "3"
 services:
   engecopi_transferencia:
     image: tomcat:8
-    container_name: eng_pedido_transferencia
+    container_name: eng_transferencia
     ports:
       - "8018:8080"
     environment:
@@ -16,10 +16,10 @@ services:
       - ./ebean.properties:/etc/ebean.properties
     restart: always
     networks:
-      rede_pedido_transferencia:
+      rede_transferencia:
         ipv4_address: 172.118.1.1
 networks:
-  rede_pedido_transferencia:
+  rede_transferencia:
     ipam:
       driver: default
       config:
