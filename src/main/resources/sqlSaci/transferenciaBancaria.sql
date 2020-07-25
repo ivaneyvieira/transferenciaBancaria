@@ -124,7 +124,7 @@ FROM sqldados.eord               AS P
 	       ON U.no = P.userno
   INNER JOIN sqldados.TPED
 	       ON TPED.storeno = P.storeno AND TPED.ordno = P.ordno
-  INNER JOIN sqldados.TCARDBANCO AS B
+  LEFT JOIN sqldados.TCARDBANCO AS B
 	       ON B.storeno = P.storeno AND B.ordno = P.ordno
 WHERE P.paymno IN (311, 312)
   AND P.date >= :data
