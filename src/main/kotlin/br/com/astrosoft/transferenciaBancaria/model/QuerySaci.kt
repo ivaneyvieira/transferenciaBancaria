@@ -6,6 +6,7 @@ import br.com.astrosoft.framework.util.toSaciDate
 import br.com.astrosoft.transferenciaBancaria.model.beans.TransferenciaBancaria
 import br.com.astrosoft.transferenciaBancaria.model.beans.UserSaci
 import java.time.LocalDate
+import java.time.LocalTime
 
 class QuerySaci: QueryDB(driver, url, username, password) {
   fun findUser(login: String?): List<UserSaci> {
@@ -41,17 +42,17 @@ class QuerySaci: QueryDB(driver, url, username, password) {
     }
   }
   
-  /*
-  fun marcaTransf(loja: Int, numPedido: Int, data: LocalDate?, hora: LocalTime?) {
+  
+  fun marcaTransf(loja: Int, numPedido: Int, valorTransfEdt: Double, autorizacao: String) {
     val sql = "/sqlSaci/marcaTransf.sql"
     script(sql) {
       addParameter("storeno", loja)
       addParameter("ordno", numPedido)
-      addParameter("data", data)
-      addParameter("hora", hora)
+      addParameter("valorTransfEdt", valorTransfEdt)
+      addParameter("autorizacao", autorizacao)
     }
   }
-   */
+  
   
   fun marcaVendedor(loja: Int, numPedido: Int, marcaNova: String) {
     val sql = "/sqlSaci/marcaVendedor.sql"

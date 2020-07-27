@@ -26,8 +26,8 @@ data class TransferenciaBancaria(val loja: Int,
                                  val marca: String,
                                  val userTransf: Int,
                                  val banco: Int?,
-                                 val valorTransfEdt: Double,
-                                 val autorizacaoEdt: String
+                                 var valorTransfEdt: Double,
+                                 var autorizacaoEdt: String
                                 ) {
   val notaFiscal: String
     get() = numeroNota(nfnoNota, nfseNota)
@@ -51,6 +51,15 @@ data class TransferenciaBancaria(val loja: Int,
   fun marcaUserTransf(marca: Boolean) {
     val userLink = (AppConfig.userSaci as? UserSaci)?.no ?: return
     saci.marcaUserTransf(loja, numPedido, if(marca) userLink else 0)
+  }
+  
+  fun filtroData(data: LocalDate?) = dataPedido == data || data == null
+  fun filtroPedido(num: Int) = numPedido == num || num == 0
+  fun filtroVendedor(vendedorStr: String): Boolean {
+    val empno = vendedorStr.toIntOrNull()
+    return if(empno == null)
+      vendedor?.startsWith(vendedorStr) == true || vendedorStr == ""
+    else this.empno == empno
   }
   
   companion object {
@@ -107,6 +116,11 @@ data class TransferenciaBancaria(val loja: Int,
         && it.userTransf != 0
         && it.marca == "S"
       }
+    }
+    
+    fun salvaTransferencia(transferenciaBancaria: TransferenciaBancaria) {
+      saci.marcaTransf(transferenciaBancaria.loja, transferenciaBancaria.numPedido,
+                       transferenciaBancaria.valorTransfEdt, transferenciaBancaria.autorizacaoEdt)
     }
   }
   

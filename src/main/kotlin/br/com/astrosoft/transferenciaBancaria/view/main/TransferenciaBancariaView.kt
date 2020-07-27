@@ -106,6 +106,11 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
     painel.blockUpdate()
   }
   
+  override fun salvaTransferencia(bean: TransferenciaBancaria?) {
+    if(bean != null)
+      viewModel.salvaTransferencia(bean)
+  }
+  
   override fun updateGridPedido(itens: List<TransferenciaBancaria>) {
     gridPedido.updateGrid(itens)
   }

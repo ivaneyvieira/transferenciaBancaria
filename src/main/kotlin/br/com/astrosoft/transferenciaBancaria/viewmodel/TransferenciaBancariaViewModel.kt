@@ -15,17 +15,10 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     val filtro = view.filtroPedido
     return TransferenciaBancaria.listaPedido()
       .filter {
-        filtroPedito(it, filtro)
+        it.filtroData(filtro.data())
+        && it.filtroPedido(filtro.numPedido())
+        && it.filtroVendedor(filtro.vendedor())
       }
-  }
-  
-  private fun filtroPedito(it: TransferenciaBancaria,
-                           filtro: IFiltroPedido): Boolean {
-    return ((it.dataPedido == filtro.data() || filtro.data() == null)
-            && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
-            && (it.vendedor?.contains(filtro.vendedor()) == true
-                || it.empno?.toString() == filtro.vendedor()
-                || filtro.vendedor() == ""))
   }
   
   fun updateGridPendente() {
@@ -36,11 +29,9 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     val filtro = view.filtroPendente
     return TransferenciaBancaria.listaPendente()
       .filter {
-        (it.dataPedido == filtro.data() || filtro.data() == null)
-        && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
-        && (it.vendedor?.contains(filtro.vendedor()) == true
-            || it.empno?.toString() == filtro.vendedor()
-            || filtro.vendedor() == "")
+        it.filtroData(filtro.data())
+        && it.filtroPedido(filtro.numPedido())
+        && it.filtroVendedor(filtro.vendedor())
       }
   }
   
@@ -52,8 +43,8 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     val filtro = view.filtroFinalizar
     return TransferenciaBancaria.listaFinalizar()
       .filter {
-        (it.dataPedido == filtro.data() || filtro.data() == null)
-        && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
+        it.filtroData(filtro.data())
+        && it.filtroPedido(filtro.numPedido())
       }
   }
   
@@ -65,8 +56,8 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     val filtro = view.filtroDivergencia
     return TransferenciaBancaria.listaDivergencia()
       .filter {
-        (it.dataPedido == filtro.data() || filtro.data() == null)
-        && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
+        it.filtroData(filtro.data())
+        && it.filtroPedido(filtro.numPedido())
       }
   }
   
@@ -78,8 +69,8 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     val filtro = view.filtroEditor
     return TransferenciaBancaria.listaEditor()
       .filter {
-        (it.dataPedido == filtro.data() || filtro.data() == null)
-        && (it.numPedido == filtro.numPedido() || filtro.numPedido() == 0)
+        it.filtroData(filtro.data())
+        && it.filtroPedido(filtro.numPedido())
       }
   }
   
@@ -99,6 +90,10 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
       transferenciaBancaria.marcaVendedor(marca)
     }
     view.updateGrid()
+  }
+  
+  fun salvaTransferencia(bean: TransferenciaBancaria) {
+    TransferenciaBancaria.salvaTransferencia(bean)
   }
 }
 
@@ -150,6 +145,7 @@ interface ITransferenciaBancariaView: IView {
   fun desmarcaUserLink(transferenciaBancaria: List<TransferenciaBancaria>)
   
   fun updateGrid()
+  fun salvaTransferencia(bean: TransferenciaBancaria?)
 }
 
 data class SenhaVendendor(var nome: String, var senha: String?)

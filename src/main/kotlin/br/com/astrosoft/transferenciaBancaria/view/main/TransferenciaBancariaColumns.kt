@@ -55,10 +55,10 @@ fun Grid<TransferenciaBancaria>.colDepositante() = addColumnString(Transferencia
   setHeader("Depositante")
 }
 fun Grid<TransferenciaBancaria>.colAutorizacao() = addColumnString(TransferenciaBancaria::autorizacao) {
-  setHeader("Usuário")
+  setHeader("Autorizacao")
 }
 fun Grid<TransferenciaBancaria>.colAutorizacaoEdt() = addColumnString(TransferenciaBancaria::autorizacaoEdt) {
-  setHeader("Usuário")
+  setHeader("Autorizacao")
 }
 fun Grid<TransferenciaBancaria>.colBanco() = addColumnInt(TransferenciaBancaria::banco) {
   setHeader("Banco")
