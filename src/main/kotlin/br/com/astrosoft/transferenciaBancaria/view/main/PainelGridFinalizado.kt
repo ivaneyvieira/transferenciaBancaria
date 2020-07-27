@@ -11,7 +11,6 @@ import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.textfield.IntegerField
 import java.time.LocalDate
@@ -40,7 +39,7 @@ class PainelGridFinalizado(view: ITransferenciaBancariaView, blockUpdate: () -> 
         isVisible = (AppConfig.userSaci as? UserSaci)?.admin ?: false
         icon = VaadinIcon.ARROW_CIRCLE_LEFT.create()
         addThemeVariants(LUMO_SMALL)
-        onLeftClick {view.desmarcaUserLink(multiSelect())}
+        onLeftClick {view.desmarcaUserTrans(multiSelect())}
       }
       edtPedido = edtPedido() {
         addValueChangeListener {blockUpdate()}

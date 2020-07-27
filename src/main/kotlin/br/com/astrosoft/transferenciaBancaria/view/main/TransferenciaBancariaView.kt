@@ -79,7 +79,7 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
     }
   }
   
-  override fun marcaUserLink(transferenciaBancaria: List<TransferenciaBancaria>) {
+  override fun marcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>) {
     val userSaci = AppConfig.userSaci as UserSaci
     val form = FormUsuario()
     val usuario = SenhaUsuario(userSaci.login, "")
@@ -97,7 +97,7 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
     viewModel.marcaVendedor(transferenciaBancaria, false)
   }
   
-  override fun desmarcaUserLink(transferenciaBancaria: List<TransferenciaBancaria>) {
+  override fun desmarcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>) {
     viewModel.marcaUserTransf(transferenciaBancaria, false)
   }
   
@@ -146,7 +146,7 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
     const val TAB_PEDIDO: String = "Pedido"
     const val TAB_PENDENTE: String = "Pendente"
     const val TAB_FINALIZAR: String = "Finalzar"
-    const val TAB_DIVERGENCIA: String = "Devergencia"
+    const val TAB_DIVERGENCIA: String = "Divergencia"
     const val TAB_EDITOR: String = "Editor"
   }
 }

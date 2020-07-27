@@ -105,8 +105,8 @@ SELECT P.storeno                                           AS loja,
        B.banco                                             AS banco,
        B.autorizacao                                       AS autorizacao,
        P.status                                            AS status,
-       P.c1                                                AS marca,
-       P.s16                                               AS userTransf,
+       P.c2                                                AS marca,
+       P.s12                                               AS userTransf,
        P.m16 / 100                                         AS valorTransfEdt,
        P.c6                                                AS autorizacaoEdt
 FROM sqldados.eord               AS P

@@ -139,10 +139,10 @@ interface ITransferenciaBancariaView: IView {
   
   //
   fun marcaVendedor(transferenciaBancaria: TransferenciaBancaria?)
-  fun marcaUserLink(transferenciaBancaria: List<TransferenciaBancaria>)
+  fun marcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>)
   
   fun desmarcaVendedor(transferenciaBancaria: List<TransferenciaBancaria>)
-  fun desmarcaUserLink(transferenciaBancaria: List<TransferenciaBancaria>)
+  fun desmarcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>)
   
   fun updateGrid()
   fun salvaTransferencia(bean: TransferenciaBancaria?)

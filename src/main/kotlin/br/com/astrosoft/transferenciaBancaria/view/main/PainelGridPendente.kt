@@ -101,7 +101,7 @@ class PainelGridPendente(view: ITransferenciaBancariaView, blockUpdate: () -> Un
       button("Finaliza") {
         icon = VaadinIcon.ARROW_CIRCLE_RIGHT.create()
         addThemeVariants(LUMO_SMALL)
-        onLeftClick {view.marcaUserLink(multiSelect().filter {it.autorizacaoEdt != ""})}
+        onLeftClick {view.marcaUserTrans(multiSelect().filter {it.autorizacaoEdt != ""})}
       }
       edtPedido = edtPedido() {
         addValueChangeListener {blockUpdate()}

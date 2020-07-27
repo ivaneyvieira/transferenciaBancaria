@@ -1,4 +1,4 @@
 UPDATE sqldados.eord
-SET eord.s16 = :userLink
+SET eord.s12 = :userLink
 WHERE ordno = :ordno
   AND storeno = :storeno
