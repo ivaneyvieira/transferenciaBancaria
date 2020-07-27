@@ -36,7 +36,7 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
   private var tabSheetGrid: TabSheet
   private val gridPedido = PainelGridPedido(this) {viewModel.updateGridPedido()}
   private val gridPendente = PainelGridPendente(this) {viewModel.updateGridPendente()}
-  private val gridFinalizar = PainelGridFinalizado(this) {viewModel.updateGridFinalizar()}
+  private val gridFinalizar = PainelGridFinalizar(this) {viewModel.updateGridFinalizar()}
   private val gridDivergencia = PainelGridDivergencia(this) {viewModel.updateGridDivergencia()}
   private val gridEditor = PainelGridEditor(this) {viewModel.updateGridEditor()}
   override val viewModel: TransferenciaBancariaViewModel = TransferenciaBancariaViewModel(this)
@@ -145,7 +145,7 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
   companion object {
     const val TAB_PEDIDO: String = "Pedido"
     const val TAB_PENDENTE: String = "Pendente"
-    const val TAB_FINALIZAR: String = "Finalzar"
+    const val TAB_FINALIZAR: String = "Finalizar"
     const val TAB_DIVERGENCIA: String = "Divergencia"
     const val TAB_EDITOR: String = "Editor"
   }

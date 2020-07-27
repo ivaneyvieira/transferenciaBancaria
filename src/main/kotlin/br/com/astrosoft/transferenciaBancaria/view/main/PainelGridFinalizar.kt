@@ -15,7 +15,7 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.textfield.IntegerField
 import java.time.LocalDate
 
-class PainelGridFinalizado(view: ITransferenciaBancariaView, blockUpdate: () -> Unit): PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
+class PainelGridFinalizar(view: ITransferenciaBancariaView, blockUpdate: () -> Unit): PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
   override fun Grid<TransferenciaBancaria>.gridConfig() {
     colLoja()
     colnumPedido()
@@ -23,6 +23,7 @@ class PainelGridFinalizado(view: ITransferenciaBancariaView, blockUpdate: () -> 
     colVendedor()
     colMetodo()
     colValorFrete()
+    colValorPedido()
     colValorTransfEdt()
     colAutorizacaoEdt()
     colCliente()
