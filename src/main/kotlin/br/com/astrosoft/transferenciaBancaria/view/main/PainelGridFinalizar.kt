@@ -11,12 +11,14 @@ import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
+import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.textfield.IntegerField
 import java.time.LocalDate
 
 class PainelGridFinalizar(view: ITransferenciaBancariaView, blockUpdate: () -> Unit): PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
   override fun Grid<TransferenciaBancaria>.gridConfig() {
+    setSelectionMode(MULTI)
     colLoja()
     colnumPedido()
     colDataPedido()
