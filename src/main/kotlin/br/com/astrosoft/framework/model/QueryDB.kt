@@ -32,7 +32,7 @@ open class QueryDB(driver: String, url: String, username: String, password: Stri
     config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048")
     config.isAutoCommit = false
     val ds = HikariDataSource(config)
-    ds.maximumPoolSize = 5
+    ds.maximumPoolSize = 2
     val maps = HashMap<Class<*>, Converter<*>>()
     maps[LocalDate::class.java] = LocalDateConverter()
     maps[LocalTime::class.java] = LocalSqlTimeConverter()
