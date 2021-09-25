@@ -42,7 +42,7 @@ class PainelGridFinalizar(view: ITransferenciaBancariaView, blockUpdate: () -> U
         isVisible = (AppConfig.userSaci as? UserSaci)?.admin ?: false
         icon = VaadinIcon.ARROW_CIRCLE_LEFT.create()
         addThemeVariants(LUMO_SMALL)
-        onLeftClick {view.desmarcaUserTrans(multiSelect())}
+        this.onLeftClick {view.desmarcaUserTrans(multiSelect())}
       }
       edtPedido = edtPedido() {
         addValueChangeListener {blockUpdate()}

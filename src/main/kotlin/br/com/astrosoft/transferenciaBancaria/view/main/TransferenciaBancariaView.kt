@@ -47,11 +47,11 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
     val user = AppConfig.userSaci as UserSaci
     tabSheetGrid = tabSheet {
       setSizeFull()
-      if(user.acl_pedido) tabGrid(TAB_PEDIDO, gridPedido)
-      if(user.acl_pendente) tabGrid(TAB_PENDENTE, gridPendente)
-      if(user.acl_finalizar) tabGrid(TAB_FINALIZAR, gridFinalizar)
-      if(user.acl_divergencia) tabGrid(TAB_DIVERGENCIA, gridDivergencia)
-      if(user.acl_editor) tabGrid(TAB_EDITOR, gridEditor)
+      if(user.acl_pedido) this.tabGrid(TAB_PEDIDO, gridPedido)
+      if(user.acl_pendente) this.tabGrid(TAB_PENDENTE, gridPendente)
+      if(user.acl_finalizar) this.tabGrid(TAB_FINALIZAR, gridFinalizar)
+      if(user.acl_divergencia) this.tabGrid(TAB_DIVERGENCIA, gridDivergencia)
+      if(user.acl_editor) this.tabGrid(TAB_EDITOR, gridEditor)
     }
     when {
       user.acl_pedido      -> viewModel.updateGridPedido()
@@ -158,12 +158,12 @@ class FormVendedor: FormLayout() {
     textField("Nome") {
       isEnabled = false
       addThemeVariants(LUMO_SMALL)
-      bind(binder).bind(SenhaVendendor::nome)
+      this.bind(binder).bind(SenhaVendendor::nome)
     }
     
     passwordField("Senha") {
       addThemeVariants(LUMO_SMALL)
-      bind(binder).bind(SenhaVendendor::senha)
+      this.bind(binder).bind(SenhaVendendor::senha)
       this.isAutofocus = true
     }
   }
@@ -176,12 +176,12 @@ class FormUsuario: FormLayout() {
     textField("Nome") {
       isEnabled = false
       addThemeVariants(LUMO_SMALL)
-      bind(binder).bind(SenhaUsuario::nome)
+      this.bind(binder).bind(SenhaUsuario::nome)
     }
     
     passwordField("Senha") {
       addThemeVariants(LUMO_SMALL)
-      bind(binder).bind(SenhaUsuario::senha)
+      this.bind(binder).bind(SenhaUsuario::senha)
       this.isAutofocus = true
     }
   }

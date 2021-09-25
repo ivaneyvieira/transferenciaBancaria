@@ -20,11 +20,11 @@ import com.vaadin.flow.data.value.ValueChangeMode
 
 fun Grid<TransferenciaBancaria>.colLoja() = addColumnInt(TransferenciaBancaria::loja) {
   setHeader("Lj")
-  width = "4em"
+  this.width = "4em"
 }
 fun Grid<TransferenciaBancaria>.colnumPedido() = addColumnInt(TransferenciaBancaria::numPedido) {
   setHeader("Pedido")
-  width = "7em"
+  this.width = "7em"
 }
 fun Grid<TransferenciaBancaria>.colDataPedido() = addColumnLocalDate(TransferenciaBancaria::dataPedido) {
   setHeader("Data")
@@ -34,7 +34,7 @@ fun Grid<TransferenciaBancaria>.colVendedor() = addColumnString(TransferenciaBan
 }
 fun Grid<TransferenciaBancaria>.colMetodo() = addColumnInt(TransferenciaBancaria::metodo) {
   setHeader("Mét")
-  width = "5em"
+  this.width = "5em"
 }
 fun Grid<TransferenciaBancaria>.colValorFrete() = addColumnDouble(TransferenciaBancaria::valorFrete) {
   setHeader("Frete")
@@ -62,7 +62,7 @@ fun Grid<TransferenciaBancaria>.colAutorizacaoEdt() = addColumnString(Transferen
 }
 fun Grid<TransferenciaBancaria>.colBanco() = addColumnInt(TransferenciaBancaria::banco) {
   setHeader("Banco")
-  width = "5em"
+  this.width = "5em"
 }
 fun Grid<TransferenciaBancaria>.colValorNota() = addColumnDouble(TransferenciaBancaria::valorNota) {
   setHeader("V. Nota")

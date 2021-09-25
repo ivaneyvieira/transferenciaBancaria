@@ -48,7 +48,7 @@ FROM sqldados.eord
   LEFT JOIN sqldados.T_EMP AS emp
 	      ON (emp.empno = eord.empno)
 WHERE (eord.storeno = :storeno OR :storeno = 0)
-  AND paym.no IN (311, 312)
+  AND paym.no IN (311, 312, 313)
   AND (eord.date >= :data)
 GROUP BY eord.storeno, eord.ordno;
 
@@ -126,7 +126,7 @@ FROM sqldados.eord               AS P
 	       ON TPED.storeno = P.storeno AND TPED.ordno = P.ordno
   LEFT JOIN  sqldados.TCARDBANCO AS B
 	       ON B.storeno = P.storeno AND B.ordno = P.ordno
-WHERE P.paymno IN (311, 312)
+WHERE P.paymno IN (311, 312, 313)
   AND P.date >= :data
   AND P.status <> 5
   AND (P.storeno = :storeno OR :storeno = 0)

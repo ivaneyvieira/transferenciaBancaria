@@ -96,12 +96,12 @@ class PainelGridPendente(view: ITransferenciaBancariaView, blockUpdate: () -> Un
         isVisible = (AppConfig.userSaci as? UserSaci)?.admin ?: false
         icon = VaadinIcon.ARROW_CIRCLE_LEFT.create()
         addThemeVariants(LUMO_SMALL)
-        onLeftClick {view.desmarcaVendedor(multiSelect())}
+        this.onLeftClick {view.desmarcaVendedor(multiSelect())}
       }
       button("Finaliza") {
         icon = VaadinIcon.ARROW_CIRCLE_RIGHT.create()
         addThemeVariants(LUMO_SMALL)
-        onLeftClick {view.marcaUserTrans(multiSelect().filter {it.autorizacaoEdt != ""})}
+        this.onLeftClick {view.marcaUserTrans(multiSelect().filter {it.autorizacaoEdt != ""})}
       }
       edtPedido = edtPedido() {
         addValueChangeListener {blockUpdate()}
