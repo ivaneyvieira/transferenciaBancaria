@@ -1,10 +1,6 @@
 package br.com.astrosoft.transferenciaBancaria.view.main
 
-import br.com.astrosoft.framework.view.addColumnDouble
-import br.com.astrosoft.framework.view.addColumnInt
-import br.com.astrosoft.framework.view.addColumnLocalDate
-import br.com.astrosoft.framework.view.addColumnString
-import br.com.astrosoft.framework.view.localePtBr
+import br.com.astrosoft.framework.view.*
 import br.com.astrosoft.transferenciaBancaria.model.beans.TransferenciaBancaria
 import com.github.mvysny.karibudsl.v10.VaadinDsl
 import com.github.mvysny.karibudsl.v10.datePicker
@@ -22,54 +18,70 @@ fun Grid<TransferenciaBancaria>.colLoja() = addColumnInt(TransferenciaBancaria::
   setHeader("Lj")
   this.width = "4em"
 }
+
 fun Grid<TransferenciaBancaria>.colnumPedido() = addColumnInt(TransferenciaBancaria::numPedido) {
   setHeader("Pedido")
   this.width = "7em"
 }
+
 fun Grid<TransferenciaBancaria>.colDataPedido() = addColumnLocalDate(TransferenciaBancaria::dataPedido) {
   setHeader("Data")
 }
+
 fun Grid<TransferenciaBancaria>.colVendedor() = addColumnString(TransferenciaBancaria::vendedor) {
   setHeader("Vendedor")
 }
+
 fun Grid<TransferenciaBancaria>.colMetodo() = addColumnInt(TransferenciaBancaria::metodo) {
   setHeader("Mét")
   this.width = "5em"
 }
+
 fun Grid<TransferenciaBancaria>.colValorFrete() = addColumnDouble(TransferenciaBancaria::valorFrete) {
   setHeader("Frete")
 }
+
 fun Grid<TransferenciaBancaria>.colValorPedido() = addColumnDouble(TransferenciaBancaria::valorPedido) {
   setHeader("Valor")
 }
+
 fun Grid<TransferenciaBancaria>.colValorTransf() = addColumnDouble(TransferenciaBancaria::valorTransf) {
   setHeader("V. Transf")
 }
+
 fun Grid<TransferenciaBancaria>.colValorTransfEdt() = addColumnDouble(TransferenciaBancaria::valorTransfEdt) {
   setHeader("V. Transf")
 }
+
 fun Grid<TransferenciaBancaria>.colCliente() = addColumnString(TransferenciaBancaria::cliente) {
   setHeader("Cliente")
 }
+
 fun Grid<TransferenciaBancaria>.colDepositante() = addColumnString(TransferenciaBancaria::depositante) {
   setHeader("Depositante")
 }
+
 fun Grid<TransferenciaBancaria>.colAutorizacao() = addColumnString(TransferenciaBancaria::autorizacao) {
   setHeader("Autorizacao")
 }
+
 fun Grid<TransferenciaBancaria>.colAutorizacaoEdt() = addColumnString(TransferenciaBancaria::autorizacaoEdt) {
   setHeader("Autorizacao")
 }
+
 fun Grid<TransferenciaBancaria>.colBanco() = addColumnInt(TransferenciaBancaria::banco) {
   setHeader("Banco")
   this.width = "5em"
 }
+
 fun Grid<TransferenciaBancaria>.colValorNota() = addColumnDouble(TransferenciaBancaria::valorNota) {
   setHeader("V. Nota")
 }
+
 fun Grid<TransferenciaBancaria>.colNotaFiscal() = addColumnString(TransferenciaBancaria::notaFiscal) {
   setHeader("NF")
 }
+
 fun Grid<TransferenciaBancaria>.colDataNota() = addColumnLocalDate(TransferenciaBancaria::dataNota) {
   setHeader("Data")
 }
@@ -92,6 +104,15 @@ fun (@VaadinDsl HasComponents).edtDataPedido(block: (@VaadinDsl DatePicker).() -
   localePtBr()
   isClearButtonVisible = true
   element.setAttribute("theme", "small")
+  block()
+}
+
+fun (@VaadinDsl HasComponents).edtQuery(block: (@VaadinDsl TextField).() -> Unit = {}) = textField("Pesquisa") {
+  isClearButtonVisible = true
+  element.setAttribute("theme", "small")
+  width = "300px"
+  valueChangeMode = ValueChangeMode.LAZY
+  valueChangeTimeout = 2000
   block()
 }
 

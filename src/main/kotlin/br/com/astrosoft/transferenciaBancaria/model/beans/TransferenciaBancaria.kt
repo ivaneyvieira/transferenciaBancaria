@@ -1,6 +1,7 @@
 package br.com.astrosoft.transferenciaBancaria.model.beans
 
 import br.com.astrosoft.AppConfig
+import br.com.astrosoft.framework.util.format
 import br.com.astrosoft.transferenciaBancaria.model.saci
 import java.time.LocalDate
 import java.time.LocalTime
@@ -196,7 +197,18 @@ class TransferenciaBancaria(
     return result
   }
 
-
+  fun filtroQuery(query: String): Boolean {
+    return (loja == query.toIntOrNull()) ||
+        (numPedido == query.toIntOrNull()) ||
+        (vendedor?.contains(query, ignoreCase = true) == true) ||
+        (cliente?.contains(query, ignoreCase = true) == true) ||
+        (nfnoNota == query) ||
+        (metodo == query.toIntOrNull()) ||
+        (valorNota.format().startsWith(query)) ||
+        (valorTransf.format().startsWith(query)) ||
+        (autorizacao == query) ||
+        (query.isBlank())
+  }
 }
 
 enum class StatusPedido(val numero: Int, val descricao: String) {

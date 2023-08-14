@@ -6,67 +6,67 @@ import br.com.astrosoft.framework.viewmodel.fail
 import br.com.astrosoft.transferenciaBancaria.model.beans.TransferenciaBancaria
 import java.time.LocalDate
 
-class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewModel<ITransferenciaBancariaView>(view) {
+class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewModel<ITransferenciaBancariaView>(view) {
   fun updateGridPedido() {
     view.updateGridPedido(listPedido())
   }
-  
+
   private fun listPedido(): List<TransferenciaBancaria> {
     val filtro = view.filtroPedido
     return TransferenciaBancaria.listaPedido()
       .filter {
         it.filtroData(filtro.data())
-        && it.filtroPedido(filtro.numPedido())
-        && it.filtroVendedor(filtro.vendedor())
+            && it.filtroPedido(filtro.numPedido())
+            && it.filtroVendedor(filtro.vendedor())
       }
   }
-  
+
   fun updateGridPendente() {
     view.updateGridPendente(listPendente())
   }
-  
+
   private fun listPendente(): List<TransferenciaBancaria> {
     val filtro = view.filtroPendente
     return TransferenciaBancaria.listaPendente()
       .filter {
         it.filtroData(filtro.data())
-        && it.filtroPedido(filtro.numPedido())
-        && it.filtroVendedor(filtro.vendedor())
+            && it.filtroPedido(filtro.numPedido())
+            && it.filtroVendedor(filtro.vendedor())
       }
   }
-  
+
   fun updateGridFinalizar() {
     view.updateGridFinalizar(listFinalizado())
   }
-  
+
   private fun listFinalizado(): List<TransferenciaBancaria> {
     val filtro = view.filtroFinalizar
     return TransferenciaBancaria.listaFinalizar()
       .filter {
         it.filtroData(filtro.data())
-        && it.filtroPedido(filtro.numPedido())
+            && it.filtroPedido(filtro.numPedido())
       }
   }
-  
+
   fun updateGridDivergencia() {
     view.updateGridDivergencia(listDivergencia())
   }
-  
+
   private fun listDivergencia(): List<TransferenciaBancaria> {
     val filtro = view.filtroDivergencia
     return TransferenciaBancaria.listaDivergencia()
       .filter {
         it.filtroData(filtro.data())
-        && it.filtroPedido(filtro.numPedido())
+            && it.filtroPedido(filtro.numPedido())
       }
   }
-  
+
   fun updateGridEditor() {
     view.updateGridEditor(listEditor())
   }
 
   fun updateGridMov() {
-    view.updateGridMov(listEditor())
+    view.updateGridMov(listMov())
   }
 
   private fun listEditor(): List<TransferenciaBancaria> {
@@ -74,28 +74,38 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
     return TransferenciaBancaria.listaEditor()
       .filter {
         it.filtroData(filtro.data())
-        && it.filtroPedido(filtro.numPedido())
+            && it.filtroPedido(filtro.numPedido())
       }
   }
-  
+
+  private fun listMov(): List<TransferenciaBancaria> {
+    val filtro = view.filtroMov
+    return TransferenciaBancaria.listaEditor()
+      .filter {
+        it.filtroData(filtro.data())
+            && it.filtroPedido(filtro.numPedido())
+            && it.filtroQuery(filtro.query())
+      }
+  }
+
   fun marcaUserTransf(transferencia: List<TransferenciaBancaria>, marca: Boolean) = exec {
     val itens = transferencia
-      .ifEmpty {fail("Nenhum item selecionado")}
-    itens.forEach {transferenciaBancaria: TransferenciaBancaria ->
+      .ifEmpty { fail("Nenhum item selecionado") }
+    itens.forEach { transferenciaBancaria: TransferenciaBancaria ->
       transferenciaBancaria.marcaUserTransf(marca)
     }
     view.updateGrid()
   }
-  
+
   fun marcaVendedor(transferencia: List<TransferenciaBancaria>, marca: Boolean) = exec {
     val itens = transferencia
-      .ifEmpty {fail("Nenhum item selecionado")}
-    itens.forEach {transferenciaBancaria: TransferenciaBancaria ->
+      .ifEmpty { fail("Nenhum item selecionado") }
+    itens.forEach { transferenciaBancaria: TransferenciaBancaria ->
       transferenciaBancaria.marcaVendedor(marca)
     }
     view.updateGrid()
   }
-  
+
   fun salvaTransferencia(bean: TransferenciaBancaria) {
     TransferenciaBancaria.salvaTransferencia(bean)
   }
@@ -131,9 +141,10 @@ interface IFiltroEditor {
 interface IFiltroMov {
   fun numPedido(): Int
   fun data(): LocalDate?
+  fun query(): String
 }
 
-interface ITransferenciaBancariaView: IView {
+interface ITransferenciaBancariaView : IView {
   fun updateGridPedido(itens: List<TransferenciaBancaria>)
   fun updateGridPendente(itens: List<TransferenciaBancaria>)
   fun updateGridFinalizar(itens: List<TransferenciaBancaria>)
@@ -151,10 +162,10 @@ interface ITransferenciaBancariaView: IView {
   //
   fun marcaVendedor(transferenciaBancaria: TransferenciaBancaria?)
   fun marcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>)
-  
+
   fun desmarcaVendedor(transferenciaBancaria: List<TransferenciaBancaria>)
   fun desmarcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>)
-  
+
   fun updateGrid()
   fun salvaTransferencia(bean: TransferenciaBancaria?)
 }
