@@ -8,27 +8,27 @@ import java.time.LocalTime
 class TransferenciaBancaria(
   val loja: Int,
   val numPedido: Int,
-  val dataPedido: LocalDate,
+  val dataPedido: LocalDate?,
   val empno: Int?,
   val vendedor: String?,
-  val senhaVendedor: String,
-  val metodo: Int,
-  val valorFrete: Double,
-  val valorPedido: Double,
-  val depositante: String,
-  val cliente: String,
-  val nfnoNota: String,
-  val nfseNota: String,
-  val dataNota: LocalDate,
-  val valorNota: Double,
-  val valorTransf: Double,
+  val senhaVendedor: String?,
+  val metodo: Int?,
+  val valorFrete: Double?,
+  val valorPedido: Double?,
+  val depositante: String?,
+  val cliente: String?,
+  val nfnoNota: String?,
+  val nfseNota: String?,
+  val dataNota: LocalDate?,
+  val valorNota: Double?,
+  val valorTransf: Double?,
   val autorizacao: String?,
-  val status: Int,
-  val marca: String,
-  val userTransf: Int,
+  val status: Int?,
+  val marca: String?,
+  val userTransf: Int?,
   val banco: Int?,
-  var valorTransfEdt: Double,
-  var autorizacaoEdt: String
+  var valorTransfEdt: Double?,
+  var autorizacaoEdt: String?
 ) {
   val notaFiscal: String
     get() = numeroNota(nfnoNota, nfseNota)
@@ -37,7 +37,9 @@ class TransferenciaBancaria(
       .toList()
       .firstOrNull { it.numero == status }
 
-  private fun numeroNota(nfno: String, nfse: String): String {
+  private fun numeroNota(nfno: String?, nfse: String?): String {
+    nfno ?: return ""
+    nfse ?: return nfno
     return when {
       nfno == "" -> ""
       nfse == "" -> nfno
@@ -62,7 +64,6 @@ class TransferenciaBancaria(
       vendedor?.startsWith(vendedorStr) == true || vendedorStr == ""
     else this.empno == empno
   }
-
 
 
   companion object {
@@ -171,29 +172,31 @@ class TransferenciaBancaria(
   override fun hashCode(): Int {
     var result = loja
     result = 31 * result + numPedido
-    result = 31 * result + dataPedido.hashCode()
+    result = 31 * result + (dataPedido?.hashCode() ?: 0)
     result = 31 * result + (empno ?: 0)
     result = 31 * result + (vendedor?.hashCode() ?: 0)
-    result = 31 * result + senhaVendedor.hashCode()
-    result = 31 * result + metodo
-    result = 31 * result + valorFrete.hashCode()
-    result = 31 * result + valorPedido.hashCode()
-    result = 31 * result + depositante.hashCode()
-    result = 31 * result + cliente.hashCode()
-    result = 31 * result + nfnoNota.hashCode()
-    result = 31 * result + nfseNota.hashCode()
-    result = 31 * result + dataNota.hashCode()
-    result = 31 * result + valorNota.hashCode()
-    result = 31 * result + valorTransf.hashCode()
+    result = 31 * result + (senhaVendedor?.hashCode() ?: 0)
+    result = 31 * result + (metodo ?: 0)
+    result = 31 * result + (valorFrete?.hashCode() ?: 0)
+    result = 31 * result + (valorPedido?.hashCode() ?: 0)
+    result = 31 * result + (depositante?.hashCode() ?: 0)
+    result = 31 * result + (cliente?.hashCode() ?: 0)
+    result = 31 * result + (nfnoNota?.hashCode() ?: 0)
+    result = 31 * result + (nfseNota?.hashCode() ?: 0)
+    result = 31 * result + (dataNota?.hashCode() ?: 0)
+    result = 31 * result + (valorNota?.hashCode() ?: 0)
+    result = 31 * result + (valorTransf?.hashCode() ?: 0)
     result = 31 * result + (autorizacao?.hashCode() ?: 0)
-    result = 31 * result + status
-    result = 31 * result + marca.hashCode()
-    result = 31 * result + userTransf
+    result = 31 * result + (status ?: 0)
+    result = 31 * result + (marca?.hashCode() ?: 0)
+    result = 31 * result + (userTransf ?: 0)
     result = 31 * result + (banco ?: 0)
-    result = 31 * result + valorTransfEdt.hashCode()
-    result = 31 * result + autorizacaoEdt.hashCode()
+    result = 31 * result + (valorTransfEdt?.hashCode() ?: 0)
+    result = 31 * result + (autorizacaoEdt?.hashCode() ?: 0)
     return result
   }
+
+
 }
 
 enum class StatusPedido(val numero: Int, val descricao: String) {

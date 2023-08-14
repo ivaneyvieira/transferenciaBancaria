@@ -336,7 +336,6 @@ fun <T> TabSheet.tabGrid(label: String, painelGrid: PainelGrid<T>) = tab {
 }.apply {
   val button = Button(label) {
     painelGrid.blockUpdate()
-    painelGrid.addComponents()
   }
   button.addThemeVariants(ButtonVariant.LUMO_SMALL)
   this.addComponentAsFirst(button)

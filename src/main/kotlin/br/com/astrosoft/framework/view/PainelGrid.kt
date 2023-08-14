@@ -27,9 +27,10 @@ abstract class PainelGrid<T>(val view: ITransferenciaBancariaView, val blockUpda
     this.setSizeFull()
     isMargin = false
     isPadding = false
+    initComponents()
   }
 
-  fun addComponents() {
+  private fun initComponents() {
     add(filterBar)
     if(grid == null) {
       grid = createGrid()

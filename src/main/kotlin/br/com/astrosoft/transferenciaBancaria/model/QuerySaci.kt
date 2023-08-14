@@ -43,13 +43,13 @@ class QuerySaci: QueryDB(driver, url, username, password) {
   }
   
   
-  fun marcaTransf(loja: Int, numPedido: Int, valorTransfEdt: Double, autorizacao: String) {
+  fun marcaTransf(loja: Int, numPedido: Int, valorTransfEdt: Double?, autorizacao: String?) {
     val sql = "/sqlSaci/marcaTransf.sql"
     script(sql) {
       addParameter("storeno", loja)
       addParameter("ordno", numPedido)
-      addParameter("valorTransfEdt", valorTransfEdt)
-      addParameter("autorizacao", autorizacao)
+      addParameter("valorTransfEdt", valorTransfEdt ?: 0.00)
+      addParameter("autorizacao", autorizacao ?: "")
     }
   }
   
