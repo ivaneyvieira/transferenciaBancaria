@@ -9,6 +9,7 @@ import br.com.astrosoft.transferenciaBancaria.viewmodel.ITransferenciaBancariaVi
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
 import com.github.mvysny.karibudsl.v10.refresh
+import com.github.mvysny.kaributools.refresh
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid

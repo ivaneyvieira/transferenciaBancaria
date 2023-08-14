@@ -9,8 +9,9 @@ import com.vaadin.flow.component.grid.Grid
 import com.vaadin.flow.component.textfield.IntegerField
 import java.time.LocalDate
 
-class PainelGridEditor(view: ITransferenciaBancariaView, blockUpdate: () -> Unit):
+class PainelGridEditor(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
   PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
+
   override fun Grid<TransferenciaBancaria>.gridConfig() {
     colLoja()
     colnumPedido()
@@ -25,13 +26,13 @@ class PainelGridEditor(view: ITransferenciaBancariaView, blockUpdate: () -> Unit
     colAutorizacao()
     colCliente()
   }
-  
+
   override fun filterBar() = FilterBarOutros()
-  
-  inner class FilterBarOutros(): FilterBar(), IFiltroEditor {
+
+  inner class FilterBarOutros() : FilterBar(), IFiltroEditor {
     lateinit var edtPedido: IntegerField
     lateinit var edtData: DatePicker
-    
+
     override fun FilterBar.contentBlock() {
       /*
       button("Remover") {
@@ -41,13 +42,13 @@ class PainelGridEditor(view: ITransferenciaBancariaView, blockUpdate: () -> Unit
       }
        */
       edtPedido = edtPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
       edtData = edtDataPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
     }
-    
+
     override fun numPedido(): Int = edtPedido.value ?: 0
     override fun data(): LocalDate? = edtData.value
   }

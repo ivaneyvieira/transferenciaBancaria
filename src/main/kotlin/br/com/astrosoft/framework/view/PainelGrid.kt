@@ -9,10 +9,18 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
 abstract class PainelGrid<T>(val view: ITransferenciaBancariaView, val blockUpdate: () -> Unit) : VerticalLayout() {
+  private val provider = ListDataProvider<T>(mutableListOf())
   private var grid: Grid<T>? = null
-  private val dataProvider = ListDataProvider<T>(mutableListOf())
+
   val filterBar: FilterBar by lazy {
     filterBar()
+  }
+
+  fun createGrid(): Grid<T> {
+    return Grid<T>().apply {
+      this.dataProvider = provider
+      this.gridConfig()
+    }
   }
 
   init {
@@ -22,19 +30,18 @@ abstract class PainelGrid<T>(val view: ITransferenciaBancariaView, val blockUpda
   }
 
   fun addComponents() {
-    this.removeAll()
-    add(filterBar())
-    grid = this.grid(dataProvider = dataProvider) {
-      addThemeVariants(LUMO_COMPACT, LUMO_COLUMN_BORDERS, LUMO_ROW_STRIPES)
-      this.gridConfig()
+    add(filterBar)
+    if(grid == null) {
+      grid = createGrid()
     }
+    addAndExpand(grid)
   }
 
   protected abstract fun filterBar(): FilterBar
 
   fun updateGrid(itens: List<T>) {
     grid?.deselectAll()
-    dataProvider.updateItens(itens)
+    provider.updateItens(itens)
   }
 
   protected abstract fun Grid<T>.gridConfig()
