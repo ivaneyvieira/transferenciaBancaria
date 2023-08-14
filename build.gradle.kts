@@ -1,25 +1,31 @@
+import Build_gradle.Defs.vaadin10_version
+import Build_gradle.Defs.vaadinonkotlin_version
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val vaadinonkotlin_version = "1.0.1"
-val vaadin10_version = "14.3.0"
-val kotlin_version = "1.3.72"
-val spring_boot_version = "2.3.1.RELEASE"
-
-plugins {
-  id("org.springframework.boot") version "2.3.1.RELEASE"
-  id("io.spring.dependency-management") version "1.0.9.RELEASE"
-  kotlin("jvm") version "1.3.72"
-  id("org.gretty") version "3.0.1"
-  war
-  id("com.vaadin") version "0.7.0"
-  kotlin("plugin.spring") version "1.3.72"
+object Defs {
+  const val vaadinonkotlin_version = "1.0.1"
+  const val vaadin10_version = "14.10.3"
+  const val kotlin_version = "1.6.21"
+  const val vaadin_plugin = "0.14.10.4"
 }
 
-defaultTasks("clean", "vaadinBuildFrontend", "build")
+plugins {
+  kotlin("jvm") version "1.6.21"
+  id("org.gretty") version "3.0.6"
+  war
+  id("com.vaadin") version "0.14.10.4"
+
+  id("org.springframework.boot") version "2.7.14"
+  id("io.spring.dependency-management") version "1.0.15.RELEASE"
+  kotlin("plugin.spring") version "1.6.21"
+}
+
+defaultTasks("clean", "build")
 
 repositories {
+  mavenLocal()
   mavenCentral()
-  jcenter() // for Gretty runners
+  jcenter()
   maven {
     url = uri("https://maven.vaadin.com/vaadin-addons")
   }
@@ -29,26 +35,39 @@ gretty {
   contextPath = "/"
   servletContainer = "jetty9.4"
 }
-val staging by configurations.creating
+
+val staging: Configuration by configurations.creating
 
 tasks.withType<KotlinCompile> {
-  kotlinOptions.jvmTarget = "1.8"
+  kotlinOptions {
+    jvmTarget = "1.8"
+  }
 }
 
 group = "transferenciaBancaria"
+version = "1.0"
+
+java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
   //Spring
   implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.session:spring-session-core")
   providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-  // Vaadin-on-Kotlin dependency, includes Vaadin
-  implementation("com.github.mvysny.karibudsl:karibu-dsl:$vaadinonkotlin_version")
-  // Vaadin 14
-  implementation("com.vaadin:vaadin-core:$vaadin10_version")
-  implementation("com.vaadin:vaadin-spring-boot-starter:$vaadin10_version")
+
+  implementation("com.github.mvysny.karibudsl:karibu-dsl:${vaadinonkotlin_version}") // Vaadin 14
+  implementation("com.vaadin:vaadin-core:${vaadin10_version}") { // Webjars are only needed when running in Vaadin 13 compatibility mode
+    listOf(
+      "com.vaadin.webjar",
+      "org.webjars.bowergithub.insites",
+      "org.webjars.bowergithub.polymer",
+      "org.webjars.bowergithub.polymerelements",
+      "org.webjars.bowergithub.vaadin",
+      "org.webjars.bowergithub.webcomponents"
+    ).forEach { exclude(group = it) }
+  }
   providedCompile("javax.servlet:javax.servlet-api:3.1.0")
-  
+
   implementation("com.zaxxer:HikariCP:3.4.1")
   // logging
   // currently we are logging through the SLF4J API to LogBack. See src/main/resources/logback.xml file for the logger configuration
@@ -75,21 +94,11 @@ dependencies {
   //compile("com.github.appreciated:app-layout-addon:4.0.0.rc4")
   implementation("org.vaadin.crudui:crudui:4.1.0")
   //compile("com.flowingcode.addons.applayout:app-layout-addon:2.0.2")
-  implementation(kotlin("stdlib-jdk8"))
+  implementation(kotlin("stdlib"))
   implementation(kotlin("reflect"))
-  //compile("org.jetbrains.kotlin:kotlin-reflect")
-  // test support
-  testImplementation("com.github.mvysny.kaributesting:karibu-testing-v10:1.1.16")
-  testImplementation("com.github.mvysny.dynatest:dynatest-engine:0.15")
 }
 
 vaadin {
-  productionMode = false
+  pnpmEnable = false
+  productionMode = true
 }
-
-dependencyManagement {
-  imports {
-    mavenBom("com.vaadin:vaadin-bom:$vaadin10_version")
-  }
-}
-

@@ -1,3 +1,5 @@
+SET SQL_MODE = '';
+
 DROP TABLE IF EXISTS sqldados.T_EMP;
 CREATE TEMPORARY TABLE sqldados.T_EMP (
   PRIMARY KEY (empno)

@@ -32,38 +32,38 @@ import com.vaadin.flow.router.Route
 @Route(layout = TransferenciaBancariaLayout::class)
 @PageTitle(AppConfig.title)
 @HtmlImport("frontend://styles/shared-styles.html")
-class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), ITransferenciaBancariaView {
+class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), ITransferenciaBancariaView {
   private var tabSheetGrid: TabSheet
-  private val gridPedido = PainelGridPedido(this) {viewModel.updateGridPedido()}
-  private val gridPendente = PainelGridPendente(this) {viewModel.updateGridPendente()}
-  private val gridFinalizar = PainelGridFinalizar(this) {viewModel.updateGridFinalizar()}
-  private val gridDivergencia = PainelGridDivergencia(this) {viewModel.updateGridDivergencia()}
-  private val gridEditor = PainelGridEditor(this) {viewModel.updateGridEditor()}
+  private val gridPedido = PainelGridPedido(this) { viewModel.updateGridPedido() }
+  private val gridPendente = PainelGridPendente(this) { viewModel.updateGridPendente() }
+  private val gridFinalizar = PainelGridFinalizar(this) { viewModel.updateGridFinalizar() }
+  private val gridDivergencia = PainelGridDivergencia(this) { viewModel.updateGridDivergencia() }
+  private val gridEditor = PainelGridEditor(this) { viewModel.updateGridEditor() }
   override val viewModel: TransferenciaBancariaViewModel = TransferenciaBancariaViewModel(this)
-  
+
   override fun isAccept() = true
-  
+
   init {
     val user = AppConfig.userSaci as UserSaci
     tabSheetGrid = tabSheet {
       setSizeFull()
-      if(user.acl_pedido) this.tabGrid(TAB_PEDIDO, gridPedido)
-      if(user.acl_pendente) this.tabGrid(TAB_PENDENTE, gridPendente)
-      if(user.acl_finalizar) this.tabGrid(TAB_FINALIZAR, gridFinalizar)
-      if(user.acl_divergencia) this.tabGrid(TAB_DIVERGENCIA, gridDivergencia)
-      if(user.acl_editor) this.tabGrid(TAB_EDITOR, gridEditor)
+      if (user.acl_pedido) this.tabGrid(TAB_PEDIDO, gridPedido)
+      if (user.acl_pendente) this.tabGrid(TAB_PENDENTE, gridPendente)
+      if (user.acl_finalizar) this.tabGrid(TAB_FINALIZAR, gridFinalizar)
+      if (user.acl_divergencia) this.tabGrid(TAB_DIVERGENCIA, gridDivergencia)
+      if (user.acl_editor) this.tabGrid(TAB_EDITOR, gridEditor)
     }
     when {
-      user.acl_pedido      -> viewModel.updateGridPedido()
-      user.acl_pendente    -> viewModel.updateGridPendente()
-      user.acl_finalizar   -> viewModel.updateGridFinalizar()
+      user.acl_pedido -> viewModel.updateGridPedido()
+      user.acl_pendente -> viewModel.updateGridPendente()
+      user.acl_finalizar -> viewModel.updateGridFinalizar()
       user.acl_divergencia -> viewModel.updateGridDivergencia()
-      user.acl_editor      -> viewModel.updateGridEditor()
+      user.acl_editor -> viewModel.updateGridEditor()
     }
   }
-  
+
   override fun marcaVendedor(transferenciaBancaria: TransferenciaBancaria?) {
-    if(transferenciaBancaria == null)
+    if (transferenciaBancaria == null)
       showError("Transferencia não selecionada")
     else {
       val form = FormVendedor()
@@ -71,14 +71,14 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
       form.binder.bean = vendendor
       showForm("Senha do vendedor", form) {
         val senha = form.binder.bean.senha ?: "#######"
-        if(senha == transferenciaBancaria.senhaVendedor)
+        if (senha == transferenciaBancaria.senhaVendedor)
           viewModel.marcaVendedor(listOf(transferenciaBancaria), true)
         else
           showError("Senha inválida")
       }
     }
   }
-  
+
   override fun marcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>) {
     val userSaci = AppConfig.userSaci as UserSaci
     val form = FormUsuario()
@@ -86,51 +86,51 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
     form.binder.bean = usuario
     showForm("Senha do Usuário", form) {
       val senha = form.binder.bean.senha ?: "#######"
-      if(senha == userSaci.senha)
+      if (senha == userSaci.senha)
         viewModel.marcaUserTransf(transferenciaBancaria, true)
       else
         showError("Senha incorreta")
     }
   }
-  
+
   override fun desmarcaVendedor(transferenciaBancaria: List<TransferenciaBancaria>) {
     viewModel.marcaVendedor(transferenciaBancaria, false)
   }
-  
+
   override fun desmarcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>) {
     viewModel.marcaUserTransf(transferenciaBancaria, false)
   }
-  
+
   override fun updateGrid() {
     val painel = (tabSheetGrid.selectedTab?.contents as? PainelGrid<*>) ?: return
     painel.blockUpdate()
   }
-  
+
   override fun salvaTransferencia(bean: TransferenciaBancaria?) {
-    if(bean != null)
+    if (bean != null)
       viewModel.salvaTransferencia(bean)
   }
-  
+
   override fun updateGridPedido(itens: List<TransferenciaBancaria>) {
     gridPedido.updateGrid(itens)
   }
-  
+
   override fun updateGridPendente(itens: List<TransferenciaBancaria>) {
     gridPendente.updateGrid(itens)
   }
-  
+
   override fun updateGridFinalizar(itens: List<TransferenciaBancaria>) {
     gridFinalizar.updateGrid(itens)
   }
-  
+
   override fun updateGridDivergencia(itens: List<TransferenciaBancaria>) {
     gridDivergencia.updateGrid(itens)
   }
-  
+
   override fun updateGridEditor(itens: List<TransferenciaBancaria>) {
     gridEditor.updateGrid(itens)
   }
-  
+
   override val filtroPedido: IFiltroPedido
     get() = gridPedido.filterBar as IFiltroPedido
   override val filtroPendente: IFiltroPendente
@@ -141,7 +141,7 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
     get() = gridDivergencia.filterBar as IFiltroDivergencia
   override val filtroEditor: IFiltroEditor
     get() = gridEditor.filterBar as IFiltroEditor
-  
+
   companion object {
     const val TAB_PEDIDO: String = "Pedido"
     const val TAB_PENDENTE: String = "Pendente"
@@ -151,16 +151,16 @@ class TransferenciaBancariaView: ViewLayout<TransferenciaBancariaViewModel>(), I
   }
 }
 
-class FormVendedor: FormLayout() {
+class FormVendedor : FormLayout() {
   val binder = Binder<SenhaVendendor>(SenhaVendendor::class.java)
-  
+
   init {
     textField("Nome") {
       isEnabled = false
       addThemeVariants(LUMO_SMALL)
       this.bind(binder).bind(SenhaVendendor::nome)
     }
-    
+
     passwordField("Senha") {
       addThemeVariants(LUMO_SMALL)
       this.bind(binder).bind(SenhaVendendor::senha)
@@ -169,16 +169,16 @@ class FormVendedor: FormLayout() {
   }
 }
 
-class FormUsuario: FormLayout() {
+class FormUsuario : FormLayout() {
   val binder = Binder<SenhaUsuario>(SenhaUsuario::class.java)
-  
+
   init {
     textField("Nome") {
       isEnabled = false
       addThemeVariants(LUMO_SMALL)
       this.bind(binder).bind(SenhaUsuario::nome)
     }
-    
+
     passwordField("Senha") {
       addThemeVariants(LUMO_SMALL)
       this.bind(binder).bind(SenhaUsuario::senha)
