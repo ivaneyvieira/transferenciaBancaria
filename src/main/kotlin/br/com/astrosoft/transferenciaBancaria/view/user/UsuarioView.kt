@@ -137,6 +137,9 @@ class UserCrudFormFactory(private val viewModel: UsuarioViewModel): AbstractCrud
           checkBox("Editor") {
             binder.bind(this, UserSaci::acl_editor.name)
           }
+          checkBox("Movimentação") {
+            binder.bind(this, UserSaci::acl_mov.name)
+          }
         }
       }
       hr()

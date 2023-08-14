@@ -7,15 +7,7 @@ import br.com.astrosoft.framework.view.tabGrid
 import br.com.astrosoft.transferenciaBancaria.model.beans.TransferenciaBancaria
 import br.com.astrosoft.transferenciaBancaria.model.beans.UserSaci
 import br.com.astrosoft.transferenciaBancaria.view.layout.TransferenciaBancariaLayout
-import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroDivergencia
-import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroEditor
-import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroFinalizar
-import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroPedido
-import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroPendente
-import br.com.astrosoft.transferenciaBancaria.viewmodel.ITransferenciaBancariaView
-import br.com.astrosoft.transferenciaBancaria.viewmodel.SenhaUsuario
-import br.com.astrosoft.transferenciaBancaria.viewmodel.SenhaVendendor
-import br.com.astrosoft.transferenciaBancaria.viewmodel.TransferenciaBancariaViewModel
+import br.com.astrosoft.transferenciaBancaria.viewmodel.*
 import com.github.mvysny.karibudsl.v10.TabSheet
 import com.github.mvysny.karibudsl.v10.bind
 import com.github.mvysny.karibudsl.v10.contents
@@ -39,6 +31,7 @@ class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), 
   private val gridFinalizar = PainelGridFinalizar(this) { viewModel.updateGridFinalizar() }
   private val gridDivergencia = PainelGridDivergencia(this) { viewModel.updateGridDivergencia() }
   private val gridEditor = PainelGridEditor(this) { viewModel.updateGridEditor() }
+  private val gridMov = PainelGridMov(this) { viewModel.updateGridMov() }
   override val viewModel: TransferenciaBancariaViewModel = TransferenciaBancariaViewModel(this)
 
   override fun isAccept() = true
@@ -52,6 +45,7 @@ class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), 
       if (user.acl_finalizar) this.tabGrid(TAB_FINALIZAR, gridFinalizar)
       if (user.acl_divergencia) this.tabGrid(TAB_DIVERGENCIA, gridDivergencia)
       if (user.acl_editor) this.tabGrid(TAB_EDITOR, gridEditor)
+      if (user.acl_mov) this.tabGrid(TAB_MOV, gridMov)
     }
     when {
       user.acl_pedido -> viewModel.updateGridPedido()
@@ -59,6 +53,7 @@ class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), 
       user.acl_finalizar -> viewModel.updateGridFinalizar()
       user.acl_divergencia -> viewModel.updateGridDivergencia()
       user.acl_editor -> viewModel.updateGridEditor()
+      user.acl_mov -> viewModel.updateGridMov()
     }
   }
 
@@ -131,6 +126,10 @@ class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), 
     gridEditor.updateGrid(itens)
   }
 
+  override fun updateGridMov(itens: List<TransferenciaBancaria>) {
+    gridMov.updateGrid(itens)
+  }
+
   override val filtroPedido: IFiltroPedido
     get() = gridPedido.filterBar as IFiltroPedido
   override val filtroPendente: IFiltroPendente
@@ -141,6 +140,8 @@ class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), 
     get() = gridDivergencia.filterBar as IFiltroDivergencia
   override val filtroEditor: IFiltroEditor
     get() = gridEditor.filterBar as IFiltroEditor
+  override val filtroMov: IFiltroMov
+    get() = gridMov.filterBar as IFiltroMov
 
   companion object {
     const val TAB_PEDIDO: String = "Pedido"
@@ -148,6 +149,7 @@ class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), 
     const val TAB_FINALIZAR: String = "Finalizar"
     const val TAB_DIVERGENCIA: String = "Divergencia"
     const val TAB_EDITOR: String = "Editor"
+    const val TAB_MOV: String = "Movimentação"
   }
 }
 

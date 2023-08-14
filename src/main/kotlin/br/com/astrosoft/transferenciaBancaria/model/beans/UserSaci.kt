@@ -62,7 +62,14 @@ class UserSaci: IUser {
       bitAcesso = if(value) bitAcesso or BIT_EDITOR
       else bitAcesso and BIT_EDITOR.inv()
     }
-  
+
+  var acl_mov
+    get() = (bitAcesso and BIT_MOV) != 0 || admin
+    set(value) {
+      bitAcesso = if(value) bitAcesso or BIT_MOV
+      else bitAcesso and BIT_MOV.inv()
+    }
+
   companion object {
     private val BIT_ATIVO = 2.pow(13)
     private val BIT_PEDIDO = 2.pow(0)
@@ -70,7 +77,8 @@ class UserSaci: IUser {
     private val BIT_FINALIZAR = 2.pow(2)
     private val BIT_DIVERGENCIA = 2.pow(3)
     private val BIT_EDITOR = 2.pow(4)
-    
+    private val BIT_MOV = 2.pow(5)
+
     fun findAll(): List<UserSaci>? {
       return saci.findAllUser()
         .filter {it.ativo}

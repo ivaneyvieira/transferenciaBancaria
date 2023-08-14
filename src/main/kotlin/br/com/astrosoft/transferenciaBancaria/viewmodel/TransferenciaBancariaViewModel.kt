@@ -64,7 +64,11 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView): ViewMode
   fun updateGridEditor() {
     view.updateGridEditor(listEditor())
   }
-  
+
+  fun updateGridMov() {
+    view.updateGridMov(listEditor())
+  }
+
   private fun listEditor(): List<TransferenciaBancaria> {
     val filtro = view.filtroEditor
     return TransferenciaBancaria.listaEditor()
@@ -124,19 +128,26 @@ interface IFiltroEditor {
   fun data(): LocalDate?
 }
 
+interface IFiltroMov {
+  fun numPedido(): Int
+  fun data(): LocalDate?
+}
+
 interface ITransferenciaBancariaView: IView {
   fun updateGridPedido(itens: List<TransferenciaBancaria>)
   fun updateGridPendente(itens: List<TransferenciaBancaria>)
   fun updateGridFinalizar(itens: List<TransferenciaBancaria>)
   fun updateGridDivergencia(itens: List<TransferenciaBancaria>)
   fun updateGridEditor(itens: List<TransferenciaBancaria>)
-  
+  fun updateGridMov(itens: List<TransferenciaBancaria>)
+
   val filtroPedido: IFiltroPedido
   val filtroPendente: IFiltroPendente
   val filtroFinalizar: IFiltroFinalizar
   val filtroDivergencia: IFiltroDivergencia
   val filtroEditor: IFiltroEditor
-  
+  val filtroMov: IFiltroMov
+
   //
   fun marcaVendedor(transferenciaBancaria: TransferenciaBancaria?)
   fun marcaUserTrans(transferenciaBancaria: List<TransferenciaBancaria>)
