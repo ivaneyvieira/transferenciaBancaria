@@ -43,23 +43,30 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
 
   inner class FilterBarMov() : FilterBar(), IFiltroMov {
     lateinit var edtPedido: IntegerField
-    lateinit var edtData: DatePicker
+    lateinit var edtDataInicial: DatePicker
+    lateinit var edtDataFinal: DatePicker
     lateinit var edtQuery: TextField
 
     override fun FilterBar.contentBlock() {
-      edtPedido = edtPedido() {
+      edtPedido = edtPedido {
         addValueChangeListener { blockUpdate() }
       }
-      edtData = edtDataPedido() {
+      edtDataInicial = edtDataPedido {
+        this.label = "Data Inicial"
         addValueChangeListener { blockUpdate() }
       }
-      edtQuery = edtQuery() {
+      edtDataFinal = edtDataPedido {
+        this.label = "Data Final"
+        addValueChangeListener { blockUpdate() }
+      }
+      edtQuery = edtQuery {
         addValueChangeListener { blockUpdate() }
       }
     }
 
     override fun numPedido(): Int = edtPedido.value ?: 0
-    override fun data(): LocalDate? = edtData.value
+    override fun dataInicial(): LocalDate? = edtDataInicial.value
+    override fun dataFinal(): LocalDate? = edtDataFinal.value
     override fun query(): String = edtQuery.value ?: ""
   }
 }

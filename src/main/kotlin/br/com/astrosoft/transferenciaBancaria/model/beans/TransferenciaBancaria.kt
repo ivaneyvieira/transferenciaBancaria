@@ -58,6 +58,14 @@ class TransferenciaBancaria(
   }
 
   fun filtroData(data: LocalDate?) = dataPedido == data || data == null
+
+  fun filtroData(dataInicial: LocalDate?, dataFinal: LocalDate?): Boolean {
+    val di = dataInicial ?: LocalDate.of(1900, 1, 1)
+    val df = dataFinal ?: LocalDate.of(2999, 12, 31)
+    dataPedido ?: return true
+    return (dataPedido.isAfter(di) || dataPedido == di) && (dataPedido.isBefore(df) || dataPedido == df)
+  }
+
   fun filtroPedido(num: Int) = numPedido == num || num == 0
   fun filtroVendedor(vendedorStr: String): Boolean {
     val empno = vendedorStr.toIntOrNull()
