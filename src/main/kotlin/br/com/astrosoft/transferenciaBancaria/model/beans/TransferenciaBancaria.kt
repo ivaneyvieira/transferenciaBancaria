@@ -31,9 +31,16 @@ class TransferenciaBancaria(
   var valorTransfEdt: Double?,
   var autorizacaoEdt: String?,
   val dataFat: LocalDate?,
+  val nfnoFat: String?,
+  val nfseFat: String?,
+  val cfoFat: String?,
 ) {
+  val notaFiscalFat: String
+    get() = numeroNota(nfnoFat, nfseFat)
+
   val notaFiscal: String
     get() = numeroNota(nfnoNota, nfseNota)
+
   val statusPedido
     get() = StatusPedido.values()
       .toList()
@@ -219,6 +226,7 @@ class TransferenciaBancaria(
         (vendedor?.contains(query, ignoreCase = true) == true) ||
         (cliente?.contains(query, ignoreCase = true) == true) ||
         (nfnoNota == query) ||
+        (nfnoFat == query) ||
         (metodo == query.toIntOrNull()) ||
         (valorNota.format().startsWith(query)) ||
         (valorTransf.format().startsWith(query)) ||

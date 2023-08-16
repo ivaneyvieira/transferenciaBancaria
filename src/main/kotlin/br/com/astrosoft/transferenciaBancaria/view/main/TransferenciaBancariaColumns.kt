@@ -28,10 +28,6 @@ fun Grid<TransferenciaBancaria>.colDataPedido() = addColumnLocalDate(Transferenc
   setHeader("Data")
 }
 
-fun Grid<TransferenciaBancaria>.colDataFaturamento() = addColumnLocalDate(TransferenciaBancaria::dataFat) {
-  setHeader("Data Fat")
-}
-
 fun Grid<TransferenciaBancaria>.colVendedor() = addColumnString(TransferenciaBancaria::vendedor) {
   setHeader("Vendedor")
 }
@@ -83,11 +79,19 @@ fun Grid<TransferenciaBancaria>.colValorNota() = addColumnDouble(TransferenciaBa
 }
 
 fun Grid<TransferenciaBancaria>.colNotaFiscal() = addColumnString(TransferenciaBancaria::notaFiscal) {
-  setHeader("NF")
+  setHeader("NF Ent")
 }
 
 fun Grid<TransferenciaBancaria>.colDataNota() = addColumnLocalDate(TransferenciaBancaria::dataNota) {
-  setHeader("Data")
+  setHeader("Data Ent")
+}
+
+fun Grid<TransferenciaBancaria>.colNotaFiscalFat() = addColumnString(TransferenciaBancaria::notaFiscalFat) {
+  setHeader("NF Fat")
+}
+
+fun Grid<TransferenciaBancaria>.colDataNotaFat() = addColumnLocalDate(TransferenciaBancaria::dataFat) {
+  setHeader("Data Fat")
 }
 
 //Campos de filtro

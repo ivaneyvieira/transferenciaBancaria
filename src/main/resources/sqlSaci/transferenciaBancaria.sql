@@ -146,12 +146,25 @@ CREATE TEMPORARY TABLE T_FAT
 (
   PRIMARY KEY (loja, numPedido)
 )
-SELECT storeno AS loja, eordno AS numPedido, MAX(date) AS date
+SELECT storeno AS loja, eordno AS numPedido, date, nfno, nfse, cfo
 FROM sqlpdv.pxa AS P
        INNER JOIN T_TRANSF AS T
                   ON P.storeno = T.loja
                     AND P.eordno = T.numPedido
-WHERE cfo NOT IN (5922, 6922)
+WHERE nfse = '1'
+GROUP BY storeno, eordno;
+
+DROP TEMPORARY TABLE IF EXISTS T_ENT;
+CREATE TEMPORARY TABLE T_ENT
+(
+  PRIMARY KEY (loja, numPedido)
+)
+SELECT storeno AS loja, eordno AS numPedido, date, nfno, nfse, cfo
+FROM sqlpdv.pxa AS P
+       INNER JOIN T_TRANSF AS T
+                  ON P.storeno = T.loja
+                    AND P.eordno = T.numPedido
+WHERE nfse = '3'
 GROUP BY storeno, eordno;
 
 SELECT T.loja,
@@ -177,7 +190,10 @@ SELECT T.loja,
        T.userTransf,
        T.valorTransfEdt,
        T.autorizacaoEdt,
-       CAST(F.date AS DATE) AS dataFat
+       CAST(F.date AS DATE) AS dataFat,
+       CAST(F.nfno AS CHAR) AS nfnoFat,
+       F.nfse               AS nfseFat,
+       F.cfo                AS cfoFat
 FROM T_TRANSF AS T
        LEFT JOIN T_FAT AS F
                  USING (loja, numPedido)
