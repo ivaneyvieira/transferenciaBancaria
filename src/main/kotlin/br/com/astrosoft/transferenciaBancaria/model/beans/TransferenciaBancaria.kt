@@ -152,6 +152,10 @@ class TransferenciaBancaria(
       }
     }
 
+    fun listaMov(): List<TransferenciaBancaria> {
+      return updateList(storeno)
+    }
+
     fun salvaTransferencia(transferenciaBancaria: TransferenciaBancaria) {
       saci.marcaTransf(
         transferenciaBancaria.loja, transferenciaBancaria.numPedido,
