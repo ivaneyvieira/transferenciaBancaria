@@ -1,8 +1,5 @@
 package br.com.astrosoft.framework.spring
 
-import br.com.astrosoft.AppConfig
-import com.github.mvysny.karibudsl.v10.h1
-import com.github.mvysny.karibudsl.v10.h2
 import com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment
 import com.vaadin.flow.component.orderedlayout.FlexComponent.JustifyContentMode.CENTER
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
@@ -16,14 +13,14 @@ import com.vaadin.flow.theme.lumo.Lumo
 @Route("login")
 @PageTitle("Login")
 @Theme(value = Lumo::class, variant = Lumo.DARK)
-class LoginView: VerticalLayout(), BeforeEnterObserver {
+class LoginView : VerticalLayout(), BeforeEnterObserver {
   private val loginFormApp = LoginFormApp()
-  
+
   override fun beforeEnter(beforeEnterEvent: BeforeEnterEvent) {
-    if(isError(beforeEnterEvent))
+    if (isError(beforeEnterEvent))
       loginFormApp.isError = true
   }
-  
+
   private fun isError(beforeEnterEvent: BeforeEnterEvent): Boolean {
     return beforeEnterEvent.location
       .queryParameters
@@ -31,7 +28,7 @@ class LoginView: VerticalLayout(), BeforeEnterObserver {
       .getOrDefault("error", emptyList())
       .isNotEmpty()
   }
-  
+
   init {
     addClassName("login-view")
     setSizeFull()

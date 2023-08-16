@@ -6,11 +6,11 @@ import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroDivergencia
 import br.com.astrosoft.transferenciaBancaria.viewmodel.ITransferenciaBancariaView
 import com.vaadin.flow.component.datepicker.DatePicker
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.Grid.SelectionMode.MULTI
 import com.vaadin.flow.component.textfield.IntegerField
 import java.time.LocalDate
 
-class PainelGridDivergencia(view : ITransferenciaBancariaView, blockUpdate: () -> Unit): PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
+class PainelGridDivergencia(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
+  PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
   override fun Grid<TransferenciaBancaria>.gridConfig() {
     colLoja()
     colnumPedido()
@@ -23,22 +23,22 @@ class PainelGridDivergencia(view : ITransferenciaBancariaView, blockUpdate: () -
     colAutorizacao()
     colCliente()
   }
-  
+
   override fun filterBar() = FilterBarFaturar()
-  
-  inner class FilterBarFaturar(): FilterBar(), IFiltroDivergencia {
+
+  inner class FilterBarFaturar() : FilterBar(), IFiltroDivergencia {
     lateinit var edtPedido: IntegerField
     lateinit var edtData: DatePicker
-    
+
     override fun FilterBar.contentBlock() {
       edtPedido = edtPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
       edtData = edtDataPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
     }
-    
+
     override fun numPedido(): Int = edtPedido.value ?: 0
     override fun data(): LocalDate? = edtData.value
   }

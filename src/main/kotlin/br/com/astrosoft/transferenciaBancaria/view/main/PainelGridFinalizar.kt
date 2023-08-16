@@ -16,7 +16,8 @@ import com.vaadin.flow.component.icon.VaadinIcon
 import com.vaadin.flow.component.textfield.IntegerField
 import java.time.LocalDate
 
-class PainelGridFinalizar(view: ITransferenciaBancariaView, blockUpdate: () -> Unit): PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
+class PainelGridFinalizar(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
+  PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
   override fun Grid<TransferenciaBancaria>.gridConfig() {
     setSelectionMode(MULTI)
     colLoja()
@@ -30,28 +31,28 @@ class PainelGridFinalizar(view: ITransferenciaBancariaView, blockUpdate: () -> U
     colAutorizacaoEdt()
     colCliente()
   }
-  
+
   override fun filterBar() = FilterBarFinalizado()
-  
-  inner class FilterBarFinalizado: FilterBar(), IFiltroFinalizar {
+
+  inner class FilterBarFinalizado : FilterBar(), IFiltroFinalizar {
     lateinit var edtPedido: IntegerField
     lateinit var edtData: DatePicker
-    
+
     override fun FilterBar.contentBlock() {
       button("Desmarca") {
         isVisible = (AppConfig.userSaci as? UserSaci)?.admin ?: false
         icon = VaadinIcon.ARROW_CIRCLE_LEFT.create()
         addThemeVariants(LUMO_SMALL)
-        this.onLeftClick {view.desmarcaUserTrans(multiSelect())}
+        this.onLeftClick { view.desmarcaUserTrans(multiSelect()) }
       }
       edtPedido = edtPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
       edtData = edtDataPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
     }
-    
+
     override fun numPedido(): Int = edtPedido.value ?: 0
     override fun data(): LocalDate? = edtData.value
   }

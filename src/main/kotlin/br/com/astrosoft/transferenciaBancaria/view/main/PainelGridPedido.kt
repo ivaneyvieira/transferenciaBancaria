@@ -13,11 +13,11 @@ import com.vaadin.flow.component.textfield.IntegerField
 import com.vaadin.flow.component.textfield.TextField
 import java.time.LocalDate
 
-class PainelGridPedido(view: ITransferenciaBancariaView, blockUpdate: () -> Unit):
+class PainelGridPedido(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
   PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
   override fun Grid<TransferenciaBancaria>.gridConfig() {
     setSelectionMode(MULTI)
-    addColumnButton(ARROW_CIRCLE_RIGHT, {transferencia ->
+    addColumnButton(ARROW_CIRCLE_RIGHT, { transferencia ->
       view.marcaVendedor(transferencia)
     })
     colLoja()
@@ -30,30 +30,30 @@ class PainelGridPedido(view: ITransferenciaBancariaView, blockUpdate: () -> Unit
     colDepositante()
     colCliente()
   }
-  
+
   override fun filterBar() = FilterBarPedido()
-  
-  inner class FilterBarPedido: FilterBar(), IFiltroPedido {
+
+  inner class FilterBarPedido : FilterBar(), IFiltroPedido {
     lateinit var edtPedido: IntegerField
     lateinit var edtData: DatePicker
     lateinit var edtVendedor: TextField
-    
+
     override fun FilterBar.contentBlock() {
       edtPedido = edtPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
       edtVendedor = edtVendedor() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
       edtData = edtDataPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
     }
-    
+
     override fun numPedido(): Int = edtPedido.value ?: 0
-    
+
     override fun vendedor(): String = edtVendedor.value ?: ""
-    
+
     override fun data(): LocalDate? = edtData.value
   }
 }

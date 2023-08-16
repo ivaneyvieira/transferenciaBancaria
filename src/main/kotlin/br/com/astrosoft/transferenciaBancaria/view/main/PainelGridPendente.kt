@@ -8,7 +8,6 @@ import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroPendente
 import br.com.astrosoft.transferenciaBancaria.viewmodel.ITransferenciaBancariaView
 import com.github.mvysny.karibudsl.v10.button
 import com.github.mvysny.karibudsl.v10.onLeftClick
-import com.github.mvysny.karibudsl.v10.refresh
 import com.github.mvysny.kaributools.refresh
 import com.vaadin.flow.component.button.ButtonVariant.LUMO_SMALL
 import com.vaadin.flow.component.datepicker.DatePicker
@@ -30,7 +29,7 @@ import java.math.BigDecimal
 import java.time.LocalDate
 import java.util.*
 
-class PainelGridPendente(view: ITransferenciaBancariaView, blockUpdate: () -> Unit):
+class PainelGridPendente(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
   PainelGrid<TransferenciaBancaria>(view, blockUpdate) {
   override fun Grid<TransferenciaBancaria>.gridConfig() {
     setSelectionMode(MULTI)
@@ -64,69 +63,69 @@ class PainelGridPendente(view: ITransferenciaBancariaView, blockUpdate: () -> Un
       .bind(TransferenciaBancaria::valorTransfEdt.name)
     binder.forField(autorizacaoField)
       .bind(TransferenciaBancaria::autorizacaoEdt.name)
-    
+
     colValorTransfEdt.editorComponent = valorField
     colAutorizacaoEdt.editorComponent = autorizacaoField
-    
-    addItemDoubleClickListener {event ->
+
+    addItemDoubleClickListener { event ->
       editor.editItem(event.item)
       valorField.focus()
     }
     addItemClickListener {
-      if(editor.isOpen)
+      if (editor.isOpen)
         editor.closeEditor()
     }
-    
-    editor.addCloseListener {event ->
+
+    editor.addCloseListener { event ->
       view.salvaTransferencia(binder.bean)
       this.refresh()
     }
-    element.addEventListener("keyup") {_: DomEvent? -> editor.cancel()}.filter =
+    element.addEventListener("keyup") { _: DomEvent? -> editor.cancel() }.filter =
       "event.key === 'Escape' || event.key === 'Esc'"
   }
-  
+
   override fun filterBar() = FilterBarPendente()
-  
-  inner class FilterBarPendente: FilterBar(), IFiltroPendente {
+
+  inner class FilterBarPendente : FilterBar(), IFiltroPendente {
     lateinit var edtPedido: IntegerField
     lateinit var edtData: DatePicker
     lateinit var edtVendedor: TextField
-    
+
     override fun FilterBar.contentBlock() {
       button("Desmarca") {
         isVisible = (AppConfig.userSaci as? UserSaci)?.admin ?: false
         icon = VaadinIcon.ARROW_CIRCLE_LEFT.create()
         addThemeVariants(LUMO_SMALL)
-        this.onLeftClick {view.desmarcaVendedor(multiSelect())}
+        this.onLeftClick { view.desmarcaVendedor(multiSelect()) }
       }
       button("Finaliza") {
         icon = VaadinIcon.ARROW_CIRCLE_RIGHT.create()
         addThemeVariants(LUMO_SMALL)
-        this.onLeftClick {view.marcaUserTrans(multiSelect().filter {it.autorizacaoEdt != ""})}
+        this.onLeftClick { view.marcaUserTrans(multiSelect().filter { it.autorizacaoEdt != "" }) }
       }
       edtPedido = edtPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
       edtVendedor = edtVendedor() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
       edtData = edtDataPedido() {
-        addValueChangeListener {blockUpdate()}
+        addValueChangeListener { blockUpdate() }
       }
     }
-    
+
     override fun numPedido(): Int = edtPedido.value ?: 0
     override fun vendedor(): String = edtVendedor.value ?: ""
     override fun data(): LocalDate? = edtData.value
   }
 }
 
-class BigDecimalToDoubleConverter: Converter<BigDecimal, Double> {
+class BigDecimalToDoubleConverter : Converter<BigDecimal, Double> {
   override fun convertToPresentation(value: Double?, context: ValueContext?): BigDecimal {
     value ?: return BigDecimal.valueOf(0.00)
     return BigDecimal.valueOf(value)
   }
-  
+
   override fun convertToModel(value: BigDecimal?, context: ValueContext?): Result<Double> {
     return Result.ok(value?.toDouble() ?: 0.00)
   }

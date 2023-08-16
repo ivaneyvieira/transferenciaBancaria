@@ -2,9 +2,7 @@ package br.com.astrosoft.framework.view
 
 import br.com.astrosoft.transferenciaBancaria.view.main.FilterBar
 import br.com.astrosoft.transferenciaBancaria.viewmodel.ITransferenciaBancariaView
-import com.github.mvysny.karibudsl.v10.grid
 import com.vaadin.flow.component.grid.Grid
-import com.vaadin.flow.component.grid.GridVariant.*
 import com.vaadin.flow.component.orderedlayout.VerticalLayout
 import com.vaadin.flow.data.provider.ListDataProvider
 
@@ -32,7 +30,7 @@ abstract class PainelGrid<T>(val view: ITransferenciaBancariaView, val blockUpda
 
   private fun initComponents() {
     add(filterBar)
-    if(grid == null) {
+    if (grid == null) {
       grid = createGrid()
     }
     addAndExpand(grid)

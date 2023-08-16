@@ -8,12 +8,7 @@ import br.com.astrosoft.transferenciaBancaria.model.beans.TransferenciaBancaria
 import br.com.astrosoft.transferenciaBancaria.model.beans.UserSaci
 import br.com.astrosoft.transferenciaBancaria.view.layout.TransferenciaBancariaLayout
 import br.com.astrosoft.transferenciaBancaria.viewmodel.*
-import com.github.mvysny.karibudsl.v10.TabSheet
-import com.github.mvysny.karibudsl.v10.bind
-import com.github.mvysny.karibudsl.v10.contents
-import com.github.mvysny.karibudsl.v10.passwordField
-import com.github.mvysny.karibudsl.v10.tabSheet
-import com.github.mvysny.karibudsl.v10.textField
+import com.github.mvysny.karibudsl.v10.*
 import com.vaadin.flow.component.dependency.HtmlImport
 import com.vaadin.flow.component.formlayout.FormLayout
 import com.vaadin.flow.component.textfield.TextFieldVariant.LUMO_SMALL

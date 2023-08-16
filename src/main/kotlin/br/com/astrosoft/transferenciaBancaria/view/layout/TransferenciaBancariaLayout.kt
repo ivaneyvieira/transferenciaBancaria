@@ -27,11 +27,13 @@ import com.vaadin.flow.theme.lumo.Lumo
 
 @Theme(value = Lumo::class, variant = Lumo.DARK)
 @Push
-@PWA(name = AppConfig.title,
-     shortName = AppConfig.shortName,
-     iconPath = AppConfig.iconPath,
-     enableInstallPrompt = false)
-class TransferenciaBancariaLayout: AppLayout() {
+@PWA(
+  name = AppConfig.title,
+  shortName = AppConfig.shortName,
+  iconPath = AppConfig.iconPath,
+  enableInstallPrompt = false
+)
+class TransferenciaBancariaLayout : AppLayout() {
   init {
     isDrawerOpened = true
     navbar {
