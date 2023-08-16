@@ -86,6 +86,10 @@ fun Grid<TransferenciaBancaria>.colDataNota() = addColumnLocalDate(Transferencia
   setHeader("Data Ent")
 }
 
+fun Grid<TransferenciaBancaria>.colPDVFat() = addColumnInt(TransferenciaBancaria::pdvnoFat) {
+  setHeader("PDV Fat")
+}
+
 fun Grid<TransferenciaBancaria>.colNotaFiscalFat() = addColumnString(TransferenciaBancaria::notaFiscalFat) {
   setHeader("NF Fat")
 }

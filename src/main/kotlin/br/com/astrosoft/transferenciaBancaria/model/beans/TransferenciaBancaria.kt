@@ -34,6 +34,12 @@ class TransferenciaBancaria(
   val nfnoFat: String?,
   val nfseFat: String?,
   val cfoFat: String?,
+  val pdvnoFat: Int?,
+  val dataEnt: LocalDate?,
+  val nfnoEnt: String?,
+  val nfseEnt: String?,
+  val cfoEnt: String?,
+  val pdvnoEnt: Int?,
 ) {
   val notaFiscalFat: String
     get() = numeroNota(nfnoFat, nfseFat)

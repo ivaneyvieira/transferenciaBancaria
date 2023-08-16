@@ -21,6 +21,7 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
     colnumPedido()
     colDataPedido()
     colVendedor()
+    colPDVFat()
     //colNotaFiscal()
     //colDataNota()
     colNotaFiscalFat()
