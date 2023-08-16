@@ -83,6 +83,7 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewMod
     return TransferenciaBancaria.listaMov()
       .filter {
         it.filtroDataFat(filtro.dataInicial(), filtro.dataFinal())
+        it.filtroDataTransf(filtro.dataTransf(), filtro.dataTransf())
             && it.filtroPedido(filtro.numPedido())
             && it.filtroQuery(filtro.query())
       }
@@ -142,6 +143,7 @@ interface IFiltroMov {
   fun numPedido(): Int
   fun dataInicial(): LocalDate?
   fun dataFinal(): LocalDate?
+  fun dataTransf(): LocalDate?
   fun query(): String
 }
 

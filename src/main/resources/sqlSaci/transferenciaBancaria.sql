@@ -121,7 +121,8 @@ SELECT P.storeno                                            AS loja,
        P.c2                                                 AS marca,
        P.s12                                                AS userTransf,
        P.m16 / 100                                          AS valorTransfEdt,
-       P.c6                                                 AS autorizacaoEdt
+       P.c6                                                 AS autorizacaoEdt,
+       CAST(IF(P.l12 = 0, NULL, P.l12) AS DATE)             AS dataTransf
 FROM sqldados.eord AS P
        INNER JOIN sqldados.custp AS C
                   ON C.no = P.custno
@@ -182,6 +183,7 @@ SELECT T.loja,
        T.nfseNota,
        T.dataNota,
        T.valorNota,
+       T.dataTransf,
        T.valorTransf,
        T.banco,
        T.autorizacao,

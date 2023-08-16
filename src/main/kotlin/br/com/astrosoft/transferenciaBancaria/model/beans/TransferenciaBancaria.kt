@@ -21,6 +21,7 @@ class TransferenciaBancaria(
   val nfnoNota: String?,
   val nfseNota: String?,
   val dataNota: LocalDate?,
+  var dataTransf: LocalDate?,
   val valorNota: Double?,
   val valorTransf: Double?,
   val autorizacao: String?,
@@ -85,6 +86,13 @@ class TransferenciaBancaria(
     val df = dataFinal ?: LocalDate.of(2999, 12, 31)
     dataFat ?: return dataInicial == null && dataFinal == null
     return (dataFat.isAfter(di) || dataFat == di) && (dataFat.isBefore(df) || dataFat == df)
+  }
+
+  fun filtroDataTransf(dataInicial: LocalDate?, dataFinal: LocalDate?): Boolean {
+    val di = dataInicial ?: LocalDate.of(1900, 1, 1)
+    val df = dataFinal ?: LocalDate.of(2999, 12, 31)
+    val data = dataTransf ?: return dataInicial == null && dataFinal == null
+    return (data.isAfter(di) || data == di) && (data.isBefore(df) || data == df)
   }
 
   fun filtroPedido(num: Int) = numPedido == num || num == 0
@@ -158,8 +166,11 @@ class TransferenciaBancaria(
 
     fun salvaTransferencia(transferenciaBancaria: TransferenciaBancaria) {
       saci.marcaTransf(
-        transferenciaBancaria.loja, transferenciaBancaria.numPedido,
-        transferenciaBancaria.valorTransfEdt, transferenciaBancaria.autorizacaoEdt
+        loja = transferenciaBancaria.loja,
+        numPedido = transferenciaBancaria.numPedido,
+        valorTransfEdt = transferenciaBancaria.valorTransfEdt,
+        autorizacao = transferenciaBancaria.autorizacaoEdt,
+        dataTransf = transferenciaBancaria.dataTransf,
       )
     }
   }

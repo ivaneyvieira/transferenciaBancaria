@@ -26,6 +26,7 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
     //colDataNota()
     colNotaFiscalFat()
     colDataNotaFat()
+    colDataTransfEdt()
     colMetodo()
     colValorFrete()
     val colValorNota = colValorNota()
@@ -48,6 +49,7 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
     lateinit var edtPedido: IntegerField
     lateinit var edtDataInicial: DatePicker
     lateinit var edtDataFinal: DatePicker
+    lateinit var edtDataTransf: DatePicker
     lateinit var edtQuery: TextField
 
     override fun FilterBar.contentBlock() {
@@ -62,6 +64,10 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
         this.label = "Data Final"
         addValueChangeListener { blockUpdate() }
       }
+      edtDataTransf = edtDataPedido {
+        this.label = "Data Transf"
+        addValueChangeListener { blockUpdate() }
+      }
       edtQuery = edtQuery {
         addValueChangeListener { blockUpdate() }
       }
@@ -70,6 +76,7 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
     override fun numPedido(): Int = edtPedido.value ?: 0
     override fun dataInicial(): LocalDate? = edtDataInicial.value
     override fun dataFinal(): LocalDate? = edtDataFinal.value
+    override fun dataTransf(): LocalDate? = edtDataTransf.value
     override fun query(): String = edtQuery.value ?: ""
   }
 }

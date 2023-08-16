@@ -98,6 +98,10 @@ fun Grid<TransferenciaBancaria>.colDataNotaFat() = addColumnLocalDate(Transferen
   setHeader("Data Fat")
 }
 
+fun Grid<TransferenciaBancaria>.colDataTransfEdt() = addColumnLocalDate(TransferenciaBancaria::dataTransf) {
+  setHeader("Data Transf")
+}
+
 //Campos de filtro
 fun (@VaadinDsl HasComponents).edtPedido(block: (@VaadinDsl IntegerField).() -> Unit = {}) = integerField("Pedido") {
   this.valueChangeMode = ValueChangeMode.TIMEOUT

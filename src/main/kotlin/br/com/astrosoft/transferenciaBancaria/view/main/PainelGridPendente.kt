@@ -2,6 +2,7 @@ package br.com.astrosoft.transferenciaBancaria.view.main
 
 import br.com.astrosoft.AppConfig
 import br.com.astrosoft.framework.view.PainelGrid
+import br.com.astrosoft.framework.view.localePtBr
 import br.com.astrosoft.transferenciaBancaria.model.beans.TransferenciaBancaria
 import br.com.astrosoft.transferenciaBancaria.model.beans.UserSaci
 import br.com.astrosoft.transferenciaBancaria.viewmodel.IFiltroPendente
@@ -42,6 +43,7 @@ class PainelGridPendente(view: ITransferenciaBancariaView, blockUpdate: () -> Un
     colValorPedido()
     val colValorTransfEdt = colValorTransfEdt()
     val colAutorizacaoEdt = colAutorizacaoEdt()
+    val colDataTransfEdt = colDataTransfEdt()
     colDepositante()
     colCliente()
     val binder = Binder(TransferenciaBancaria::class.java)
@@ -49,23 +51,32 @@ class PainelGridPendente(view: ITransferenciaBancariaView, blockUpdate: () -> Un
     val valorField = BigDecimalField().apply {
       this.addThemeVariants(LUMO_ALIGN_RIGHT)
       this.setSizeFull()
-      addThemeVariants(TextFieldVariant.LUMO_SMALL)
+      this.addThemeVariants(TextFieldVariant.LUMO_SMALL)
       this.valueChangeMode = ON_CHANGE
       this.locale = Locale.forLanguageTag("pt-BR")
     }
     val autorizacaoField = TextField().apply {
       this.setSizeFull()
       this.valueChangeMode = ON_CHANGE
-      addThemeVariants(TextFieldVariant.LUMO_SMALL)
+      this.addThemeVariants(TextFieldVariant.LUMO_SMALL)
+    }
+    val dataTransfField = DatePicker().apply {
+      this.setSizeFull()
+      this.localePtBr()
+      this.isClearButtonVisible = true
+      this.element.setAttribute("theme", "small")
     }
     binder.forField(valorField)
       .withConverter(BigDecimalToDoubleConverter())
       .bind(TransferenciaBancaria::valorTransfEdt.name)
     binder.forField(autorizacaoField)
       .bind(TransferenciaBancaria::autorizacaoEdt.name)
+    binder.forField(dataTransfField)
+      .bind(TransferenciaBancaria::dataTransf.name)
 
     colValorTransfEdt.editorComponent = valorField
     colAutorizacaoEdt.editorComponent = autorizacaoField
+    colDataTransfEdt.editorComponent = dataTransfField
 
     addItemDoubleClickListener { event ->
       editor.editItem(event.item)
