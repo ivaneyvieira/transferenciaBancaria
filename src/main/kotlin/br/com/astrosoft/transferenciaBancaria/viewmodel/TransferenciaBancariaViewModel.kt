@@ -82,7 +82,7 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewMod
     val filtro = view.filtroMov
     return TransferenciaBancaria.listaEditor()
       .filter {
-        it.filtroData(filtro.dataInicial(), filtro.dataFinal())
+        it.filtroDataFat(filtro.dataInicial(), filtro.dataFinal())
             && it.filtroPedido(filtro.numPedido())
             && it.filtroQuery(filtro.query())
       }

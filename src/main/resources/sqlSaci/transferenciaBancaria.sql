@@ -1,5 +1,7 @@
 SET SQL_MODE = '';
 
+USE sqldados;
+
 DROP TABLE IF EXISTS sqldados.T_EMP;
 CREATE TEMPORARY TABLE sqldados.T_EMP
 (
@@ -91,6 +93,11 @@ FROM sqldados.TCARDBANCO01
 GROUP BY storeno, ordno;
 
 
+DROP TEMPORARY TABLE IF EXISTS T_TRANSF;
+CREATE TEMPORARY TABLE T_TRANSF
+(
+  PRIMARY KEY (loja, numPedido)
+)
 SELECT P.storeno                                            AS loja,
        P.ordno                                              AS numPedido,
        IF(P.date = 0, NULL, CAST(P.date AS DATE))           AS dataPedido,
@@ -98,7 +105,7 @@ SELECT P.storeno                                            AS loja,
        CAST(CONCAT(TPED.empno, ' ', TPED.VENDEDOR) AS CHAR) AS vendedor,
        IFNULL(senha, '')                                    AS senhaVendedor,
        P.paymno                                             AS metodo,
-       frete                                                AS valorFrete,
+       TPED.frete                                           AS valorFrete,
        IF(frete IS NULL, TPED.amount, total)                AS valorPedido,
        DEPOSITANTE                                          AS depositante,
        CLIENTE                                              AS cliente,
@@ -120,12 +127,8 @@ FROM sqldados.eord AS P
                   ON C.no = P.custno
        LEFT JOIN sqldados.nf AS N
                  ON N.storeno = P.storeno AND N.nfno = P.nfno AND N.nfse = P.nfse
-       LEFT JOIN sqldados.nf2 AS N2
-                 ON N.storeno = N2.storeno AND N.pdvno = N2.pdvno AND N.xano = N2.xano
        LEFT JOIN sqldados.nf AS F
                  ON F.storeno = P.storeno AND F.nfno = P.nfno_futura AND F.nfse = P.nfse_futura
-       LEFT JOIN sqldados.nf2 AS F2
-                 ON F.storeno = F2.storeno AND F.pdvno = F2.pdvno AND F.xano = F2.xano
        INNER JOIN sqldados.users AS U
                   ON U.no = P.userno
        INNER JOIN sqldados.TPED
@@ -136,5 +139,46 @@ WHERE P.paymno IN (311, 312, 313)
   AND P.date >= :data
   AND P.status <> 5
   AND (P.storeno = :storeno OR :storeno = 0)
-GROUP BY P.ordno, P.storeno
+GROUP BY P.ordno, P.storeno;
+
+DROP TEMPORARY TABLE IF EXISTS T_FAT;
+CREATE TEMPORARY TABLE T_FAT
+(
+  PRIMARY KEY (loja, numPedido)
+)
+SELECT storeno AS loja, eordno AS numPedido, MAX(date) AS date
+FROM sqlpdv.pxa AS P
+       INNER JOIN T_TRANSF AS T
+                  ON P.storeno = T.loja
+                    AND P.eordno = T.numPedido
+WHERE cfo NOT IN (5922, 6922)
+GROUP BY storeno, eordno;
+
+SELECT T.loja,
+       T.numPedido,
+       T.dataPedido,
+       T.empno,
+       T.vendedor,
+       T.senhaVendedor,
+       T.metodo,
+       T.valorFrete,
+       T.valorPedido,
+       T.depositante,
+       T.cliente,
+       T.nfnoNota,
+       T.nfseNota,
+       T.dataNota,
+       T.valorNota,
+       T.valorTransf,
+       T.banco,
+       T.autorizacao,
+       T.status,
+       T.marca,
+       T.userTransf,
+       T.valorTransfEdt,
+       T.autorizacaoEdt,
+       CAST(F.date AS DATE) AS dataFat
+FROM T_TRANSF AS T
+       LEFT JOIN T_FAT AS F
+                 USING (loja, numPedido)
 

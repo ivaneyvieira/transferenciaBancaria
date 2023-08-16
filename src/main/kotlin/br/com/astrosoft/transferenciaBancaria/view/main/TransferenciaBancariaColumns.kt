@@ -28,6 +28,10 @@ fun Grid<TransferenciaBancaria>.colDataPedido() = addColumnLocalDate(Transferenc
   setHeader("Data")
 }
 
+fun Grid<TransferenciaBancaria>.colDataFaturamento() = addColumnLocalDate(TransferenciaBancaria::dataFat) {
+  setHeader("Data Fat")
+}
+
 fun Grid<TransferenciaBancaria>.colVendedor() = addColumnString(TransferenciaBancaria::vendedor) {
   setHeader("Vendedor")
 }

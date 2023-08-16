@@ -20,6 +20,7 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
     colLoja()
     colnumPedido()
     colDataPedido()
+    colDataFaturamento()
     colVendedor()
     colNotaFiscal()
     colDataNota()
