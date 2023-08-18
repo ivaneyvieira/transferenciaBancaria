@@ -138,8 +138,7 @@ class TransferenciaBancaria(
     fun listaPendente(): List<TransferenciaBancaria> {
       return updateList(0).filter {
         it.notaFiscal == ""
-            && it.userTransf == 0
-            && it.marca == "S"
+            && (it.userTransf == 0 || it.marca == "S")
       }
     }
 
