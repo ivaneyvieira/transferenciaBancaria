@@ -46,6 +46,11 @@ class TransferenciaBancaria(
   val notaFiscalFat: String
     get() = numeroNota(nfnoFat, nfseFat)
 
+  val valorTransfView: Double?
+    get() = valorTransfEdt ?: valorTransf
+  val autorizacaoView: String?
+    get() = autorizacaoEdt ?: autorizacao
+
   val notaFiscal: String
     get() = numeroNota(nfnoNota, nfseNota)
 

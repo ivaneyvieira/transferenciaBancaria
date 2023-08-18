@@ -30,14 +30,14 @@ class PainelGridMov(view: ITransferenciaBancariaView, blockUpdate: () -> Unit) :
     colMetodo()
     colValorFrete()
     val colValorNota = colValorNota()
-    val colValorTransf = colValorTransf()
-    colAutorizacao()
+    val colValorTransf = colValorTransfEdt()
+    colAutorizacaoEdt()
     colCliente()
 
     this.dataProvider.addDataProviderListener {
       val list = it.source.fetchAll()
       val totalValor = list.sumOf { t -> t.valorNota ?: 0.0 }
-      val totalTransf = list.sumOf { t -> t.valorTransf ?: 0.0 }
+      val totalTransf = list.sumOf { t -> t.valorTransfEdt ?: 0.0 }
       colValorNota.setFooter(Html("<b><font size=4>${totalValor.format()}</font></b>"))
       colValorTransf.setFooter(Html("<b><font size=4>${totalTransf.format()}</font></b>"))
     }
