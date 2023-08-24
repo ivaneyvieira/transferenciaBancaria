@@ -27,6 +27,7 @@ class TransferenciaBancariaView : ViewLayout<TransferenciaBancariaViewModel>(), 
   private val gridDivergencia = PainelGridDivergencia(this) { viewModel.updateGridDivergencia() }
   private val gridEditor = PainelGridEditor(this) { viewModel.updateGridEditor() }
   private val gridMov = PainelGridMov(this) { viewModel.updateGridMov() }
+
   override val viewModel: TransferenciaBancariaViewModel = TransferenciaBancariaViewModel(this)
 
   override fun isAccept() = true

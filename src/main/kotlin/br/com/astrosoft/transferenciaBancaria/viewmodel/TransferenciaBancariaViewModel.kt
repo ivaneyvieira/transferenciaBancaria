@@ -21,10 +21,6 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewMod
       }
   }
 
-  fun updateGridPendente() {
-    view.updateGridPendente(listPendente())
-  }
-
   private fun listPendente(): List<TransferenciaBancaria> {
     val filtro = view.filtroPendente
     return TransferenciaBancaria.listaPendente()
@@ -33,10 +29,6 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewMod
             && it.filtroPedido(filtro.numPedido())
             && it.filtroVendedor(filtro.vendedor())
       }
-  }
-
-  fun updateGridFinalizar() {
-    view.updateGridFinalizar(listFinalizado())
   }
 
   private fun listFinalizado(): List<TransferenciaBancaria> {
@@ -48,10 +40,6 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewMod
       }
   }
 
-  fun updateGridDivergencia() {
-    view.updateGridDivergencia(listDivergencia())
-  }
-
   private fun listDivergencia(): List<TransferenciaBancaria> {
     val filtro = view.filtroDivergencia
     return TransferenciaBancaria.listaDivergencia()
@@ -59,14 +47,6 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewMod
         it.filtroData(filtro.data())
             && it.filtroPedido(filtro.numPedido())
       }
-  }
-
-  fun updateGridEditor() {
-    view.updateGridEditor(listEditor())
-  }
-
-  fun updateGridMov() {
-    view.updateGridMov(listMov())
   }
 
   private fun listEditor(): List<TransferenciaBancaria> {
@@ -87,6 +67,26 @@ class TransferenciaBancariaViewModel(view: ITransferenciaBancariaView) : ViewMod
             it.filtroPedido(filtro.numPedido()) &&
             it.filtroQuery(filtro.query())
       }
+  }
+
+  fun updateGridPendente() {
+    view.updateGridPendente(listPendente())
+  }
+
+  fun updateGridFinalizar() {
+    view.updateGridFinalizar(listFinalizado())
+  }
+
+  fun updateGridDivergencia() {
+    view.updateGridDivergencia(listDivergencia())
+  }
+
+  fun updateGridEditor() {
+    view.updateGridEditor(listEditor())
+  }
+
+  fun updateGridMov() {
+    view.updateGridMov(listMov())
   }
 
   fun marcaUserTransf(transferencia: List<TransferenciaBancaria>, marca: Boolean) = exec {
