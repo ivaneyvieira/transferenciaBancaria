@@ -126,35 +126,47 @@ class TransferenciaBancaria(
       return saci.listaTransferenciaBancaria(loja);
     }
 
+    fun TransferenciaBancaria.marcaPedido(): String {
+      return if (userTransf == 0) {
+        "N"
+      } else {
+        if (marca == "S") {
+          "S"
+        } else {
+          "N"
+        }
+      }
+    }
+
     fun listaPedido(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
         it.notaFiscal == ""
-            && it.userTransf == 0
+            && it.marcaPedido() == "N"
             && statusValidosPedido.contains(it.status)
-            && it.marca == ""
       }
     }
 
     fun listaPendente(): List<TransferenciaBancaria> {
       return updateList(0).filter {
         it.notaFiscal == ""
-            && (it.userTransf == 0 || it.marca == "S")
+            && it.marcaPedido() == "S"
+            && statusValidosPedido.contains(it.status)
       }
     }
 
     fun listaFinalizar(): List<TransferenciaBancaria> {
       return updateList(0).filter {
         it.notaFiscal == ""
-            && it.userTransf != 0
-            && it.marca == "S"
+            && it.marcaPedido() == "S"
+            && statusValidosPedido.contains(it.status)
       }
     }
 
     fun listaDivergencia(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
         it.notaFiscal != ""
-            && it.userTransf != 0
-            && it.marca == "S"
+            && it.marcaPedido() == "S"
+            && statusValidosPedido.contains(it.status)
             && it.divergente()
       }
     }
@@ -162,8 +174,8 @@ class TransferenciaBancaria(
     fun listaEditor(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
         it.notaFiscal != ""
-            && it.userTransf != 0
-            && it.marca == "S"
+            && it.marcaPedido() == "S"
+            && statusValidosPedido.contains(it.status)
       }
     }
 
