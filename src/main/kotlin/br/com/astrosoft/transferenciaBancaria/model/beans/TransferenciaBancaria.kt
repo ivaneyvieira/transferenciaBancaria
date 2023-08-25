@@ -126,56 +126,52 @@ class TransferenciaBancaria(
       return saci.listaTransferenciaBancaria(loja);
     }
 
-    fun TransferenciaBancaria.marcaPedido(): String {
-      return if (userTransf == 0) {
-        "N"
-      } else {
-        if (marca == "S") {
-          "S"
-        } else {
-          "N"
-        }
-      }
+    private fun TransferenciaBancaria.marcaPedido(): String {
+      return marca ?: ""
     }
 
     fun listaPedido(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
         it.notaFiscal == ""
-            && it.marcaPedido() == "N"
+            && it.marca != "S"
             && statusValidosPedido.contains(it.status)
       }
+    }
+
+    private fun TransferenciaBancaria.edicaoPendente(): Boolean {
+      return valorTransfEdt == null || valorTransfEdt == 0.00 ||
+          autorizacaoEdt == null || autorizacaoEdt == "" ||
+          dataTransf == null
     }
 
     fun listaPendente(): List<TransferenciaBancaria> {
       return updateList(0).filter {
-        it.notaFiscal == ""
-            && it.marcaPedido() == "S"
-            && statusValidosPedido.contains(it.status)
+        it.marcaPedido() == "S"
+            &&  it.userPendente()
       }
+    }
+
+    private fun TransferenciaBancaria.userPendente(): Boolean {
+      return userTransf == null || userTransf == 0
     }
 
     fun listaFinalizar(): List<TransferenciaBancaria> {
       return updateList(0).filter {
-        it.notaFiscal == ""
-            && it.marcaPedido() == "S"
-            && statusValidosPedido.contains(it.status)
+        it.marcaPedido() == "S"
+            && !it.userPendente()
       }
     }
 
     fun listaDivergencia(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
-        it.notaFiscal != ""
-            && it.marcaPedido() == "S"
-            && statusValidosPedido.contains(it.status)
+        it.marcaPedido() == "S"
             && it.divergente()
       }
     }
 
     fun listaEditor(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
-        it.notaFiscal != ""
-            && it.marcaPedido() == "S"
-            && statusValidosPedido.contains(it.status)
+        it.marcaPedido() == "S"
       }
     }
 
