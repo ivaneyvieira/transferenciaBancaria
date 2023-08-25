@@ -130,12 +130,8 @@ class TransferenciaBancaria(
       return marca ?: ""
     }
 
-    fun listaPedido(): List<TransferenciaBancaria> {
-      return updateList(storeno).filter {
-        it.notaFiscal == ""
-            && it.marca != "S"
-            && statusValidosPedido.contains(it.status)
-      }
+    private fun TransferenciaBancaria.userPendente(): Boolean {
+      return userTransf == null || userTransf == 0
     }
 
     private fun TransferenciaBancaria.edicaoPendente(): Boolean {
@@ -144,34 +140,45 @@ class TransferenciaBancaria(
           dataTransf == null
     }
 
-    fun listaPendente(): List<TransferenciaBancaria> {
-      return updateList(0).filter {
-        it.marcaPedido() == "S"
-            &&  it.userPendente()
+    fun listaPedido(): List<TransferenciaBancaria> {
+      return updateList(storeno).filter {
+        it.notaFiscal == ""
+            && it.marca != "S"
+            && it.userPendente()
+            && statusValidosPedido.contains(it.status)
       }
     }
 
-    private fun TransferenciaBancaria.userPendente(): Boolean {
-      return userTransf == null || userTransf == 0
+    fun listaPendente(): List<TransferenciaBancaria> {
+      return updateList(0).filter {
+        it.notaFiscal == ""
+            && it.marcaPedido() == "S"
+            && it.userPendente()
+      }
     }
 
     fun listaFinalizar(): List<TransferenciaBancaria> {
       return updateList(0).filter {
-        it.marcaPedido() == "S"
+        it.notaFiscal == ""
+            && it.marcaPedido() == "S"
             && !it.userPendente()
       }
     }
 
     fun listaDivergencia(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
-        it.marcaPedido() == "S"
+        it.notaFiscal != ""
+            && !it.userPendente()
+            && it.marcaPedido() == "S"
             && it.divergente()
       }
     }
 
     fun listaEditor(): List<TransferenciaBancaria> {
       return updateList(storeno).filter {
-        it.marcaPedido() == "S"
+        it.notaFiscal != ""
+            && !it.userPendente()
+            && it.marcaPedido() == "S"
       }
     }
 
